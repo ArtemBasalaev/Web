@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Форма обратной связи</title>
+</head>
+<body>
+<div>
+    <div>
+        <h1>Форма обратной связи</h1>
+    </div>
+    <div>
+        <form action="handler.php" method="post">
+            <div>
+                <label>
+                    Имя:
+                    <input name="first-name" type="text" placeholder="Иван">
+                </label>
+                <label>
+                    Фамилия:
+                    <input name="last-name" type="text" placeholder="Иванов">
+                </label>
+            </div>
+            <br>
+            <div>
+                <label>
+                    Укажите ваш возраст:
+                    <select name="age">
+                        <option value="1">до 20</option>
+                        <option value="2">20-30</option>
+                        <option value="3">31-40</option>
+                        <option value="4">41-60</option>
+                        <option value="5">старше 61</option>
+                    </select>
+                </label>
+            </div>
+            <br>
+            <div>
+                <label>
+                    Укажите ваш пол:
+                    <select name="gender">
+                        <option value="male">мужской</option>
+                        <option value="female">женский</option>
+                    </select>
+                </label>
+            </div>
+            <br>
+            <div>
+                <label>
+                    Какими продуктами пользуетесь:<br>
+                    <select multiple id="product-name" name="product-name">
+                        <option selected value="product1">Продукт 1</option>
+                        <option value="product2">Продукт 2</option>
+                        <option value="product3">Продукт 3</option>
+                        <option disabled value="product4">Продукт 4</option>
+                    </select>
+                </label>
+            </div>
+            <br>
+            <div>
+                Как часто у вас возникали проблемы за последний месяц:
+                <label>
+                    <input checked type="radio" value="1" name="problems-count">
+                    проблем не было
+                </label>
+                <label>
+                    <input type="radio" value="2" name="problems-count">
+                    &lt= 3
+                </label>
+                <label>
+                    <input type="radio" value="3" name="problems-count">
+                    &gt 3
+                </label>
+            </div>
+            <br>
+            <div>
+                Какие дополнения вы бы хотели видеть в наших продуктах:
+                <label>
+                    <input type="checkbox" name="feature-1" value="1">
+                    Дополнение 1
+                </label>
+                <label>
+                    <input type="checkbox" name="feature-2" value="2">
+                    Дополнение 2
+                </label>
+                <label>
+                    <input type="checkbox" name="feature-3" value="3">
+                    Дополнение 3
+                </label>
+            </div>
+            <br>
+            <div>
+                <label>
+                    Ваши пожелания:<br>
+                    <textarea name="feedback" rows="10" cols="60">Здесь можно оставить ваши пожелания, описать проблему</textarea>
+                </label>
+            </div>
+            <br>
+            <div>
+                <label>Загрузите файл:</label>
+                <input type="file">
+            </div>
+            <br>
+            <div>
+                <button type="reset">Очистить</button>
+                <button type="submit">Отправить</button>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div>
+        Перейти в кабинет:
+        <a href="profile.html">
+            <button type="button">Личный кабинет</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>
