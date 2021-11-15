@@ -1,49 +1,41 @@
-html
-{
+html {
     font-size: 15px;
     color: #676574;
     box-sizing: border-box;
     font-family: Helvetica, sans-serif;
 }
 
-body
-{
+body {
     padding: 10px 10px;
 }
 
-.main
-{
+.main {
     max-width: 741px;
     margin: 0 auto;
 }
 
-.title
-{
+.title {
     text-indent: 18px;
     font-size: 2rem;
-    background-color:white;
+    background-color: white;
     margin-bottom: 3px;
 }
 
-.form
-{
+.form {
     padding: 20px 20px 15px;
     background-color: #FEEED6;
 }
 
-.form label
-{
+.form label {
     font-weight: bold;
     font-size: 1rem;
 }
 
-.form >:not(:nth-last-child(1))
-{
+.form > :not(:nth-last-child(1)) {
     margin-bottom: 15px;
 }
 
-.input
-{
+.input {
     display: block;
     width: 100%;
     height: 35px;
@@ -55,14 +47,12 @@ body
     font-family: inherit;
 }
 
-.text-area
-{
+.text-area {
     height: 112px;
-    line-height:200%
+    line-height: 200%
 }
 
-.button
-{
+.button {
     display: block;
     margin-left: auto;
     padding: 0 0;
@@ -74,10 +64,8 @@ body
     color: white;
 }
 
-@media screen and (max-width: 400px)
-{
-    html
-    {
+@media screen and (max-width: 400px) {
+    html {
         font-size: 18px;
     }
 }
