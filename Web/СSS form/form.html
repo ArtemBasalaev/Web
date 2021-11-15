@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/stylesheet.css" rel="stylesheet" type="text/css">
+    <link href="css/normalize.css" type="text/css" rel="stylesheet">
+    <title>Форма</title>
+</head>
+<body>
+<div class="main">
+    <div class="title">
+        Отправить заявку
+    </div>
+    <form class="form" action="handler.php" method="post">
+        <div>
+            <label>
+                Ваше имя
+                <input class="input" type="text" placeholder="Ваше имя*" name="firs-name">
+            </label>
+
+        </div>
+        <div>
+            <label>
+                Ваш номер телефона
+                <input class="input" type="text" placeholder="Ваш номер телефона*" name="phone-number">
+            </label>
+        </div>
+        <div>
+            <label>
+                Ваше email или VK
+                <input class="input" type="text" placeholder="Ваше email или VK*" name="email">
+            </label>
+        </div>
+        <div>
+            <label>
+                Комментарий
+                <textarea class="input text-area" placeholder="Комментарий (не обязательно)" name="comment"></textarea>
+            </label>
+        </div>
+        <div>
+            Заполните и отправьте форму, и мы перезвони Вам по указанному номеру
+        </div>
+        <div>
+            <button class="button" type="submit">Отправить заявку</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

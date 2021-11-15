@@ -1,0 +1,83 @@
+html
+{
+    font-size: 15px;
+    color: #676574;
+    box-sizing: border-box;
+    font-family: Helvetica, sans-serif;
+}
+
+body
+{
+    padding: 10px 10px;
+}
+
+.main
+{
+    max-width: 741px;
+    margin: 0 auto;
+}
+
+.title
+{
+    text-indent: 18px;
+    font-size: 2rem;
+    background-color:white;
+    margin-bottom: 3px;
+}
+
+.form
+{
+    padding: 20px 20px 15px;
+    background-color: #FEEED6;
+}
+
+.form label
+{
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.form >:not(:nth-last-child(1))
+{
+    margin-bottom: 15px;
+}
+
+.input
+{
+    display: block;
+    width: 100%;
+    height: 35px;
+    border: 0;
+    padding: 0 0;
+    text-indent: 12px;
+    font-size: 1rem;
+    margin-top: 7px;
+    font-family: inherit;
+}
+
+.text-area
+{
+    height: 112px;
+    line-height:200%
+}
+
+.button
+{
+    display: block;
+    margin-left: auto;
+    padding: 0 0;
+    border: 0;
+    width: 185px;
+    height: 30px;
+    background-color: #378DB2;
+    font-weight: bold;
+    color: white;
+}
+
+@media screen and (max-width: 400px)
+{
+    html
+    {
+        font-size: 18px;
+    }
+}
