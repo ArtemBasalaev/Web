@@ -1,0 +1,57 @@
+html
+{
+    font-size: 15px;
+    color: #676574;
+    box-sizing: border-box;
+}
+
+body
+{
+    padding: 10px 10px;
+}
+
+.head-title
+{
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 2.1rem;
+    line-height: 1em;
+    margin: 0;
+}
+
+.main {
+    background-color: #FEEED6;
+    max-width: 741px;
+    margin: 0 auto;
+}
+
+.content {
+    padding: 6px 10px;
+    font-family: Helvetica, sans-serif;
+    font-size: 1rem;
+}
+
+.title {
+    color: #378DB2;
+    font-weight: bold;
+}
+
+.content div
+{
+  margin-top: 12px;
+}
+
+.content p
+{
+    text-indent: 1rem;
+    text-align: justify;
+    margin: 12px 0 0;
+}
+
+@media screen and (max-width: 400px)
+{
+    html
+    {
+        font-size: 22px;
+    }
+}
