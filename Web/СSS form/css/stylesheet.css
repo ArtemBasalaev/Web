@@ -34,7 +34,7 @@ body {
     font-size: 1rem;
 }
 
-.form > :not(:nth-last-child(1)) {
+.form > :not(:last-child) {
     margin-bottom: 15px;
 }
 
