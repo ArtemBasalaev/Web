@@ -1,12 +1,13 @@
 html {
-    font-size: 18px;
-    font-family: Helvetica, sans-serif;
-    color: black;
-    box-sizing: border-box;
+    font: 18px Helvetica, sans-serif;
 }
 
 body {
     padding: 10px 10px;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 .main {
@@ -14,7 +15,7 @@ body {
     margin: 0 auto;
 }
 
-table {
+.twitter-table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #CCCCCC;
@@ -36,17 +37,17 @@ table {
     width: 24%;
 }
 
-th, td {
+.twitter-table th, td {
     border: 1px solid #CCCCCC;
     padding: 12px 12px;
     text-align: left;
 }
 
-.table-head {
+.twitter-table > thead {
     background-color: #3498DB;
     color: #FFFFFF;
 }
 
-.table-body tr:nth-child(odd) {
+.twitter-table > tbody tr:nth-child(odd) {
     background: #EEEEEE;
 }
