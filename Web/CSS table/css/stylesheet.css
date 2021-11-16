@@ -21,19 +21,19 @@ body {
     border: 1px solid #CCCCCC;
 }
 
-.column1 {
+.twitter-table .column1 {
     width: 20%;
 }
 
-.column2 {
+.twitter-table .column2 {
     width: 20%;
 }
 
-.column3 {
+.twitter-table .column3 {
     width: 36%;
 }
 
-.column4 {
+.twitter-table .column4 {
     width: 24%;
 }
 
@@ -48,6 +48,6 @@ body {
     color: #FFFFFF;
 }
 
-.twitter-table > tbody tr:nth-child(odd) {
+.twitter-table > tbody > tr:nth-child(odd) {
     background: #EEEEEE;
 }
