@@ -1,10 +1,5 @@
 html {
-    font-size: 15px;
     color: #676574;
-}
-
-body {
-    padding: 10px 10px;
 }
 
 * {
@@ -12,35 +7,36 @@ body {
 }
 
 .head-title {
-    font: normal 2.2rem/1em Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    font: normal 32px/30px Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     margin: 0;
 }
 
 .main {
     background-color: #FEEED6;
     max-width: 741px;
-    margin: 0 auto;
+    margin: 12px auto;
 }
 
 .content {
-    padding: 6px 9px;
-    font: 1.03rem Helvetica, sans-serif;
+    padding: 3px 9px;
+    font: 16px Helvetica, sans-serif;
 }
 
-.content > div > span:nth-child(1){
+.title {
     color: #378DB2;
     font-weight: bold;
 }
 
-.content div {
-    margin-top: 12px;
+.text-block {
+    margin-top: 10px;
 }
 
-.content > div p {
-    text-indent: 1rem;
+.content p {
+    text-indent: 0.7rem;
     text-align: justify;
-    margin: 8px 0 0;
-    line-height: 1.3em;
+    margin: 12px 0 0;
+    line-height: 1.4em;
+    font-size: 15px;
 }
 
 @media screen and (max-width: 400px) {
