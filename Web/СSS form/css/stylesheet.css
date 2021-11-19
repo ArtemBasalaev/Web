@@ -4,28 +4,25 @@ html {
     font-family: Helvetica, sans-serif;
 }
 
-body {
-    padding: 10px 10px;
-}
-
 * {
     box-sizing: border-box;
 }
 
 .main {
     max-width: 741px;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 
-.title {
-    text-indent: 18px;
+h1 {
+    padding: 2px 18px 3px;
     font-size: 2rem;
-    background-color: white;
-    margin-bottom: 3px;
+    background-color: #FFF;
+    font-weight: normal;
+    margin: 0;
 }
 
 .form {
-    padding: 20px 20px 15px;
+    padding: 2px 18px 15px;
     background-color: #FEEED6;
 }
 
@@ -34,8 +31,8 @@ body {
     font-size: 1rem;
 }
 
-.form > :not(:last-child) {
-    margin-bottom: 15px;
+.input-block {
+    margin-top: 15px;
 }
 
 .input {
@@ -43,28 +40,30 @@ body {
     width: 100%;
     height: 35px;
     border: 0;
-    padding: 0 0;
-    text-indent: 12px;
+    padding: 12px;
     font-size: 1rem;
     margin-top: 7px;
     font-family: inherit;
 }
 
 .text-area {
+    resize: vertical;
     height: 112px;
-    line-height: 200%
 }
 
 .button {
     display: block;
     margin-left: auto;
-    padding: 0 0;
+    cursor: pointer;
+    padding: 8px 10px;
     border: 0;
-    width: 185px;
-    height: 30px;
     background-color: #378DB2;
     font-weight: bold;
-    color: white;
+    color: #FFF;
+}
+
+button:hover {
+    background-color: #3498DB;
 }
 
 @media screen and (max-width: 400px) {

@@ -3,45 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/stylesheet.css" rel="stylesheet" type="text/css">
-    <link href="css/normalize.css" type="text/css" rel="stylesheet">
+    <link href="css/normalize.css" rel="stylesheet">
+    <link href="css/stylesheet.css" rel="stylesheet">
     <title>Форма</title>
 </head>
 <body>
 <div class="main">
-    <div class="title">
-        Отправить заявку
-    </div>
+    <h1>Отправить заявку</h1>
     <form class="form" action="handler.php" method="post">
-        <div>
+        <div class="input-block">
             <label>
                 Ваше имя
-                <input class="input" type="text" placeholder="Ваше имя*" name="firs-name">
+                <input class="input" type="text" placeholder="Ваше имя *" name="firs-name">
             </label>
-
         </div>
-        <div>
+        <div class="input-block">
             <label>
                 Ваш номер телефона
-                <input class="input" type="text" placeholder="Ваш номер телефона*" name="phone-number">
+                <input class="input" type="text" placeholder="Ваш номер телефона *" name="phone-number">
             </label>
         </div>
-        <div>
+        <div class="input-block">
             <label>
                 Ваше email или VK
-                <input class="input" type="text" placeholder="Ваше email или VK*" name="email">
+                <input class="input" type="text" placeholder="Ваше email или VK *" name="email">
             </label>
         </div>
-        <div>
+        <div class="input-block">
             <label>
                 Комментарий
                 <textarea class="input text-area" placeholder="Комментарий (не обязательно)" name="comment"></textarea>
             </label>
         </div>
-        <div>
+        <div class="input-block">
             Заполните и отправьте форму, и мы перезвони Вам по указанному номеру
         </div>
-        <div>
+        <div class="input-block">
             <button class="button" type="submit">Отправить заявку</button>
         </div>
     </form>
