@@ -2,52 +2,48 @@ html {
     font: 18px Helvetica, sans-serif;
 }
 
-body {
-    padding: 10px 10px;
-}
-
 * {
     box-sizing: border-box;
 }
 
 .main {
     max-width: 750px;
-    margin: 0 auto;
+    margin: 12px auto;
 }
 
 .twitter-table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #CCCCCC;
+    border: 1px solid #CCC;
 }
 
-.twitter-table .column1 {
+.twitter-table .first-name-column {
     width: 20%;
 }
 
-.twitter-table .column2 {
+.twitter-table .last-name-column {
     width: 20%;
 }
 
-.twitter-table .column3 {
+.twitter-table .job-title-column {
     width: 36%;
 }
 
-.twitter-table .column4 {
+.twitter-table .account-twitter-column {
     width: 24%;
 }
 
-.twitter-table th, td {
-    border: 1px solid #CCCCCC;
-    padding: 12px 12px;
+.twitter-table th, .twitter-table td {
+    border: 1px solid #CCC;
+    padding: 12px;
     text-align: left;
 }
 
 .twitter-table > thead {
     background-color: #3498DB;
-    color: #FFFFFF;
+    color: #FFF;
 }
 
 .twitter-table > tbody > tr:nth-child(odd) {
-    background: #EEEEEE;
+    background: #EEE;
 }
