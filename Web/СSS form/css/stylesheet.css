@@ -46,7 +46,7 @@ h1 {
     font-family: inherit;
 }
 
-.text-area {
+.textarea {
     resize: vertical;
     height: 112px;
 }
@@ -62,7 +62,7 @@ h1 {
     color: #FFF;
 }
 
-button:hover {
+.button:hover {
     background-color: #3498DB;
 }
 
