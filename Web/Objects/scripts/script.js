@@ -10,6 +10,10 @@
                 {
                     name: "Novosibirsk",
                     population: 1500000
+                },
+                {
+                    name: "Omsk",
+                    population: 1150000
                 }
             ]
         },
@@ -45,7 +49,7 @@
         }
     ];
 
-    function displayCountriesWithCitiesMaxCount(countries) {
+    function getCountriesWithCitiesMaxCount(countries) {
         var citiesMaxCount = 0;
 
         countries.forEach(function (country) {
@@ -54,16 +58,10 @@
             }
         });
 
-        console.log("Страны с максимальным количеством городов: ");
-
-        countries.forEach(function (country) {
-            if (country.cities.length === citiesMaxCount) {
-                console.log(country.name);
-            }
+        return countries.filter(function (country) {
+            return country.cities.length === citiesMaxCount;
         });
     }
-
-    displayCountriesWithCitiesMaxCount(countries);
 
     var countriesPopulation = (function (countries) {
         var countriesPopulation = {};
@@ -76,6 +74,4 @@
 
         return countriesPopulation;
     })(countries);
-
-    console.log(countriesPopulation);
 })();
