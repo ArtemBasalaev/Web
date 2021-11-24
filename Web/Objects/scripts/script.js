@@ -44,34 +44,46 @@
                 {
                     name: "Chicago",
                     population: 2700000
-                },
+                }
             ]
         }
     ];
 
     function getCountriesWithCitiesMaxCount(countries) {
-        var citiesMaxCount = 0;
-
-        countries.forEach(function (country) {
-            if (country.cities.length > citiesMaxCount) {
-                citiesMaxCount = country.cities.length;
-            }
-        });
+        var citiesMaxCount = countries.reduce(function (citiesMaxCount, country) {
+            return citiesMaxCount > country.cities.length ? citiesMaxCount : country.cities.length;
+        }, 0);
 
         return countries.filter(function (country) {
             return country.cities.length === citiesMaxCount;
         });
     }
 
-    var countriesPopulation = (function (countries) {
-        var countriesPopulation = {};
+    var countriesWithCitiesMaxCount = getCountriesWithCitiesMaxCount(countries);
+
+    console.log("Страны с максимальным количеством городов:");
+
+    countriesWithCitiesMaxCount.forEach(function (country) {
+        console.log(country.name);
+    });
+
+    function getCountriesPopulations(countries) {
+        var countriesPopulations = {};
 
         countries.forEach(function (country) {
-            countriesPopulation[country.name] = (country.cities).reduce(function (countryPopulation, city) {
-                return countryPopulation += city.population;
+            countriesPopulations[country.name] = country.cities.reduce(function (countryPopulation, city) {
+                return countryPopulation + city.population;
             }, 0);
         });
 
-        return countriesPopulation;
-    })(countries);
+        return countriesPopulations;
+    }
+
+    var countriesPopulations = getCountriesPopulations(countries);
+
+    console.log("Население стран:");
+
+    for (var key in countriesPopulations) {
+        console.log(key + ": " + countriesPopulations[key]);
+    }
 })();
