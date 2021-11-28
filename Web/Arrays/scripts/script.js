@@ -13,21 +13,13 @@
     var lastFiveNumbersSubArray = array.slice(-5);
     console.log(lastFiveNumbersSubArray.join(", "));
 
-    // 1 вариант
-    console.log(array.filter(function (e) {
+    var evenNumbersSum = array.filter(function (e) {
         return e % 2 === 0;
     }).reduce(function (sum, e) {
         return sum + e;
-    }, 0));
+    }, 0);
 
-    // 2 вариант
-    console.log(array.reduce(function (sum, e) {
-        if (e % 2 !== 0) {
-            return sum;
-        }
-
-        return sum + e;
-    }, 0));
+    console.log(evenNumbersSum);
 })();
 
 (function () {
