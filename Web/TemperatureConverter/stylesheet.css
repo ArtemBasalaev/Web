@@ -1,0 +1,39 @@
+html {
+    font: 14px Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main-window {
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 400px;
+    background-color: #EEE;
+    border: thin solid #000;
+}
+
+.main-window span {
+    font-weight: bold;
+}
+
+.converter {
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.div-button {
+    text-align: center;
+}
+
+.converter-button {
+    padding: 5px;
+    font-weight: bolder;
+}
+
+.error-massage {
+    color: #F00;
+    font-size: 12px;
+    padding-top: 5px;
+}

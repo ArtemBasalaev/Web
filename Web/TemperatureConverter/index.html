@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Перевод температур</title>
+    <link href="normalize.css" rel="stylesheet">
+    <link href="stylesheet.css" rel="stylesheet">
+    <script defer src="script.js"></script>
+</head>
+<body>
+<div class="main-window">
+    <div class="converter">
+        <label>
+            <span>Температура в °C:</span>
+            <input id="degrees" name="degrees" type="text" placeholder="Введите температуру">
+        </label>
+        <div id="error-message" class="error-massage"></div>
+    </div>
+    <div class="div-button">
+        <button id="converter-button" class="converter-button" type="button">Перевести</button>
+    </div>
+    <div class="converter">
+        <span>Температура в °F:</span>
+        <span id="fahrenheit-degrees"></span>
+    </div>
+    <div class="converter">
+        <span>Температура в °K:</span>
+        <span id="kelvin-degrees"></span>
+    </div>
+</div>
+</body>
+</html>
