@@ -19,6 +19,16 @@
         return sum + e;
     }, 0);
 
+    /*
+    evenNumbersSum = array.reduce(function (sum, e) {
+        if (e % 2 !== 0) {
+            return sum;
+        }
+
+        return sum + e;
+    }, 0)
+    */
+
     console.log(evenNumbersSum);
 })();
 
