@@ -49,10 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             updateActivityInput.onblur = function () {
                 if (newActivityText === updateActivityInput.value) {
                     setViewMode();
-                    return;
                 }
-
-                alert("Сохраните введенные данные: " + updateActivityInput.value);
             }
 
             updateActivityInput.value = newActivityText;
