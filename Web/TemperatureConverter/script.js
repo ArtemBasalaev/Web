@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var celsiusDegrees = Number(inputDegrees.value);
         var errorMessage = document.getElementById("error-message");
 
-        if (isNaN(celsiusDegrees)) {
-            errorMessage.textContent = "* допустимо вводить только числа, разделителем дробной части должна быть \".\"";
+        if (inputDegrees.value.length === 0 || isNaN(celsiusDegrees)) {
+            errorMessage.textContent = "* допустимо вводить только числа, разделителем дробной части должна быть \".\", поле не должно быть пустым";
             return;
         }
 
@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
         var fahrenheitDegrees = convertCelsiusToFahrenheit(celsiusDegrees);
         var kelvinDegrees = convertCelsiusToKelvin(celsiusDegrees);
 
-        spanFahrenheitDegrees.textContent = fahrenheitDegrees.toFixed(1);
-        spanKelvinDegrees.textContent = kelvinDegrees.toFixed(1);
-    })
+        spanFahrenheitDegrees.textContent = fahrenheitDegrees.toFixed(2);
+        spanKelvinDegrees.textContent = kelvinDegrees.toFixed(2);
+    });
 
     function convertCelsiusToFahrenheit(degrees) {
         return degrees * 1.8 + 32;
