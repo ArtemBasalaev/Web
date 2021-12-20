@@ -6,24 +6,24 @@ html {
     box-sizing: border-box;
 }
 
-.main-window {
+.temperature-converter {
     margin: 20px auto;
     padding: 10px;
     max-width: 400px;
     background-color: #EEE;
-    border: thin solid #000;
+    border: 1px solid #000;
 }
 
-.main-window span {
+.temperature-scale {
     font-weight: bold;
 }
 
-.converter {
+.temperature-converter > div {
     margin: 0 auto;
     padding: 10px;
 }
 
-.div-button {
+.conversion {
     text-align: center;
 }
 

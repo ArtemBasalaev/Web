@@ -8,23 +8,23 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-<div class="main-window">
-    <div class="converter">
+<div class="temperature-converter">
+    <div>
         <label>
-            <span>Температура в °C:</span>
-            <input id="degrees" name="degrees" type="text" placeholder="Введите температуру">
+            <span class="temperature-scale">Температура в °C:</span>
+            <input id="celsius-degrees" name="degrees" type="text" placeholder="Введите температуру">
         </label>
         <div id="error-message" class="error-message"></div>
     </div>
-    <div class="div-button">
+    <div class="conversion">
         <button id="converter-button" class="converter-button" type="button">Перевести</button>
     </div>
-    <div class="converter">
-        <span>Температура в °F:</span>
+    <div>
+        <span class="temperature-scale">Температура в °F:</span>
         <span id="fahrenheit-degrees"></span>
     </div>
-    <div class="converter">
-        <span>Температура в °K:</span>
+    <div>
+        <span class="temperature-scale">Температура в °K:</span>
         <span id="kelvin-degrees"></span>
     </div>
 </div>

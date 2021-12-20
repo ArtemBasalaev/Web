@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var inputDegrees = document.getElementById("degrees");
+    var inputDegrees = document.getElementById("celsius-degrees");
     var convertButton = document.getElementById("converter-button");
 
-    var spanFahrenheitDegrees = document.getElementById("fahrenheit-degrees");
-    var spanKelvinDegrees = document.getElementById("kelvin-degrees");
+    var conversionResultToFahrenheitDegrees = document.getElementById("fahrenheit-degrees");
+    var conversionResultToKelvinDegrees = document.getElementById("kelvin-degrees");
 
     convertButton.addEventListener("click", function () {
         var celsiusDegrees = Number(inputDegrees.value);
@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var fahrenheitDegrees = convertCelsiusToFahrenheit(celsiusDegrees);
         var kelvinDegrees = convertCelsiusToKelvin(celsiusDegrees);
 
-        spanFahrenheitDegrees.textContent = fahrenheitDegrees.toFixed(2);
-        spanKelvinDegrees.textContent = kelvinDegrees.toFixed(2);
+        conversionResultToFahrenheitDegrees.textContent = fahrenheitDegrees.toFixed(2);
+        conversionResultToKelvinDegrees.textContent = kelvinDegrees.toFixed(2);
     });
 
     function convertCelsiusToFahrenheit(degrees) {
@@ -30,4 +30,4 @@ document.addEventListener("DOMContentLoaded", function () {
     function convertCelsiusToKelvin(degrees) {
         return degrees + 273.15;
     }
-})
+});
