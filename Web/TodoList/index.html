@@ -4,32 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="script.js"></script>
+    <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script defer src="script.js"></script>
     <title>Title</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <h1 class="display-3">Todo List</h1>
+        <h1 class="display-3">Todo List</h1>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-md-6">
             <form>
-                <div class="mb-3">
-                    <label for="new-todo-activity" class="form-label">Activities</label>
-                    <div class="col-6">
-                        <input class="form-control" id="new-todo-activity">
-                    </div>
-                    <div id="new-todo-error" class="form-text text-danger" style="display: none">* заполните поле
-                        ввода
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" id="new-todo-button">Добавить</button>
+                <label for="new-todo-activity" class="form-label">Ваша запланированная активность:</label>
+                <input class="form-control" id="new-todo-activity" required>
+                <button type="submit" class="btn btn-primary mt-2" id="new-todo-button">Добавить</button>
             </form>
-            <div class="col-6 list-todo-activity mt-2">
-                <ul class="list-group list-group-flush" id="todo-list"></ul>
-            </div>
         </div>
-        <div class="col-6"></div>
+    </div>
+    <div class="row list-todo-activity mt-2">
+        <div class="col-12 col-md-6">
+            <ul class="list-group list-group-flush" id="todo-list"></ul>
+        </div>
     </div>
 </div>
 </body>
