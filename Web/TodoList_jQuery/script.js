@@ -2,17 +2,15 @@ $(function () {
     var todoList = $("#todo-list");
     var newTodoActivity = $("#new-todo-activity");
     var newTodoButton = $("#new-todo-button");
-    var newTodoError = $("#new-todo-error");
 
-    newTodoButton.click(function () {
+    newTodoButton.click(function (event) {
         var newActivityText = newTodoActivity.val().trim();
 
-        newTodoError.hide();
-
         if (newActivityText.length === 0) {
-            newTodoError.show();
             return;
         }
+
+        event.preventDefault();
 
         var todoListItem = $("<li>");
         todoListItem.addClass("list-group-item");
@@ -24,9 +22,9 @@ $(function () {
         newTodoActivity.val("");
 
         function setViewMode() {
-            todoListItem.html("<span class='list-item-text'></span>\
-                                      <div class='mt-2 mb-2'><button type='button' class='btn btn-success btn-sm edit-button'>Изменить</button>\
-                                      <button type='button' class='btn btn-danger btn-sm delete-button'>Удалить</button></div>");
+            todoListItem.html("<span class='list-item-text'></span><div class='mt-2 mb-2'>\
+                               <button type='button' class='btn btn-success btn-sm edit-button'>Изменить</button>\
+                               <button type='button' class='btn btn-danger btn-sm delete-button'>Удалить</button>\</div>");
 
             todoListItem.find(".list-item-text").text(newActivityText);
 
@@ -40,26 +38,23 @@ $(function () {
         }
 
         function setEditMode() {
-            todoListItem.html("<input class='form-control new-activity-text'>\
-                               <div class='mt-2 mb-2'><button type='button' class='btn btn-success btn-sm save-button'>Сохранить</button>\
-                               <button type='button' class='btn btn-danger btn-sm cancel-button'>Отменить</button></div>");
+            todoListItem.html("<form class='g-3'><input type='text' class='form-control new-activity-text' required><div class='mt-2 mb-2'>\
+                               <button type='submit' class='btn btn-success btn-sm save-button'>Сохранить</button>\
+                               <button type='button' class='btn btn-danger btn-sm cancel-button'>Отменить</button>\
+                               </div></form>");
 
             var updateActivityInput = todoListItem.find(".new-activity-text");
 
-            updateActivityInput.blur(function () {
-                if (newActivityText === updateActivityInput.val()) {
-                    setViewMode();
-                }
-            });
-
             updateActivityInput.val(newActivityText);
 
-            todoListItem.find(".save-button").click(function () {
+            todoListItem.find(".save-button").click(function (event) {
                 var updateActivityText = updateActivityInput.val().trim();
 
                 if (updateActivityText.length === 0) {
                     return;
                 }
+
+                event.preventDefault();
 
                 newActivityText = updateActivityText;
 
