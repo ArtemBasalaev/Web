@@ -10,15 +10,14 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <h1 class="display-3">Todo List</h1>
-    </div>
+    <h1 class="display-3">Todo List</h1>
     <div class="row mb-3">
         <div class="col-md-6">
-            <form>
+            <form id="todo-form" novalidate>
                 <label for="new-todo-activity" class="form-label">Ваша запланированная активность:</label>
-                <input class="form-control" id="new-todo-activity" required>
-                <button type="submit" class="btn btn-primary mt-2" id="new-todo-button">Добавить</button>
+                <input type="text" class="form-control" id="new-todo-activity" required>
+                <div class="invalid-feedback">*заполните поле</div>
+                <button type="button" class="btn btn-primary mt-2" id="new-todo-button">Добавить</button>
             </form>
         </div>
     </div>
