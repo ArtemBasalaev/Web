@@ -4,12 +4,16 @@ $(function () {
     var newTodoButton = $("#new-todo-button");
     var newTodoForm = $("#todo-form");
 
-    newTodoButton.click(function () {
-        newTodoForm.addClass("was-validated");
+    newTodoActivity.click(function () {
+        newTodoForm.removeClass("was-validated");
+    });
 
+    newTodoButton.click(function () {
         var newActivityText = newTodoActivity.val().trim();
 
         if (newActivityText.length === 0) {
+            newTodoActivity.val("")
+            newTodoForm.addClass("was-validated");
             return;
         }
 
@@ -22,10 +26,8 @@ $(function () {
 
         newTodoActivity.val("");
 
-        newTodoForm.removeClass("was-validated");
-
         function setViewMode() {
-            todoListItem.html("<span class='list-item-text'></span><div class='mt-2 mb-2'>\
+            todoListItem.html("<span class='list-item-text'></span><div class='my-2'>\
                                <button type='button' class='btn btn-success btn-sm edit-button'>Изменить</button>\
                                <button type='button' class='btn btn-danger btn-sm delete-button'>Удалить</button>\</div>");
 
@@ -43,7 +45,7 @@ $(function () {
         function setEditMode() {
             todoListItem.html("<form class='g-3 needs-validation' novalidate>\
                                <input type='text' class='form-control new-activity-text' required>\
-                               <div class='invalid-feedback'>*заполните поле</div><div class='mt-2 mb-2'>\
+                               <div class='invalid-feedback'>*заполните поле</div><div class='my-2'>\
                                <button type='button' class='btn btn-success btn-sm save-button'>Сохранить</button>\
                                <button type='button' class='btn btn-danger btn-sm cancel-button'>Отменить</button></form>");
 
@@ -53,11 +55,11 @@ $(function () {
             updateActivityInput.val(newActivityText);
 
             todoListItem.find(".save-button").click(function () {
-                listItemForm.addClass("was-validated");
-
                 var updateActivityText = updateActivityInput.val().trim();
 
                 if (updateActivityText.length === 0) {
+                    updateActivityInput.val("");
+                    listItemForm.addClass("was-validated");
                     return;
                 }
 
@@ -68,6 +70,10 @@ $(function () {
 
             todoListItem.find(".cancel-button").click(function () {
                 setViewMode();
+            });
+
+            updateActivityInput.click(function () {
+                listItemForm.removeClass("was-validated");
             });
         }
     });
