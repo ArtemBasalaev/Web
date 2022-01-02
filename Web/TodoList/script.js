@@ -4,12 +4,16 @@ document.addEventListener("DOMContentLoaded", function () {
     var newTodoButton = document.getElementById("new-todo-button");
     var newTodoForm = document.getElementById("todo-form");
 
-    newTodoButton.addEventListener("click", function () {
-        newTodoForm.classList.add("was-validated");
+    newTodoActivity.addEventListener("click", (function () {
+        newTodoForm.classList.remove("was-validated");
+    }));
 
+    newTodoButton.addEventListener("click", function () {
         var newActivityText = newTodoActivity.value.trim();
 
         if (newActivityText.length === 0) {
+            newTodoActivity.value = "";
+            newTodoForm.classList.add("was-validated");
             return;
         }
 
@@ -22,10 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         newTodoActivity.value = "";
 
-        newTodoForm.classList.remove("was-validated");
-
         function setViewMode() {
-            todoListItem.innerHTML = "<span class='list-item-text'></span><div class='mt-2 mb-2'>\
+            todoListItem.innerHTML = "<span class='list-item-text'></span><div class='my-2'>\
                                       <button type='button' class='btn btn-success btn-sm edit-button'>Изменить</button>\
                                       <button type='button' class='btn btn-danger btn-sm delete-button'>Удалить</button>\</div>";
 
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         function setEditMode() {
             todoListItem.innerHTML = "<form class='g-3 needs-validation' novalidate>\
                                       <input type='text' class='form-control new-activity-text' required>\
-                                      <div class='invalid-feedback'>*заполните поле</div><div class='mt-2 mb-2'>\
+                                      <div class='invalid-feedback'>*заполните поле</div><div class='my-2'>\
                                       <button type='button' class='btn btn-success btn-sm save-button'>Сохранить</button>\
                                       <button type='button' class='btn btn-danger btn-sm cancel-button'>Отменить</button></form>";
 
@@ -53,11 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
             updateActivityInput.value = newActivityText;
 
             todoListItem.querySelector(".save-button").addEventListener("click", function () {
-                listItemForm.classList.add("was-validated");
-
                 var updateActivityText = updateActivityInput.value.trim();
 
                 if (updateActivityText.length === 0) {
+                    updateActivityInput.value = "";
+                    listItemForm.classList.add("was-validated");
                     return;
                 }
 
@@ -69,6 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
             todoListItem.querySelector(".cancel-button").addEventListener("click", function () {
                 setViewMode();
             });
+
+            updateActivityInput.addEventListener("click", (function () {
+                listItemForm.classList.remove("was-validated");
+            }));
         }
     });
 });
