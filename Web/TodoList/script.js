@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
     var newTodoButton = document.getElementById("new-todo-button");
     var newTodoForm = document.getElementById("todo-form");
 
-    newTodoActivity.addEventListener("click", (function () {
+    newTodoActivity.addEventListener("click", function () {
         newTodoForm.classList.remove("was-validated");
-    }));
+    });
 
     newTodoButton.addEventListener("click", function () {
         var newActivityText = newTodoActivity.value.trim();
@@ -72,9 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 setViewMode();
             });
 
-            updateActivityInput.addEventListener("click", (function () {
+            updateActivityInput.addEventListener("click", function () {
                 listItemForm.classList.remove("was-validated");
-            }));
+            });
         }
     });
 });
