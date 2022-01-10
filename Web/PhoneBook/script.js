@@ -7,7 +7,7 @@ $(function () {
     var addNewContactButton = $("#new-contact-button");
     var resetFormButton = $("#reset-form-button");
 
-    var phoneBookTable = $("#phone-book");
+    var contactsList = $("#contacts-list");
 
     var duplicateContactMessage = $("#collapse-message");
 
@@ -19,7 +19,11 @@ $(function () {
 
     var deleteCheckedContactsButton = $("#delete-checked-contacts-button");
 
-    var phoneBook = [];
+    var modalDeleteButton = $("#modal-delete-button");
+    var modalDialogElement = $("#delete-confirmation");
+    var modalDialog = new bootstrap.Modal(modalDialogElement);
+
+    var contacts = [];
     var contactsToDelete = [];
     var id = 1;
 
@@ -35,9 +39,9 @@ $(function () {
             return;
         }
 
-        var isContactPresent = phoneBook.some(function (contact) {
+        var isContactPresent = contacts.some(function (contact) {
             return phoneText === contact.phone;
-        })
+        });
 
         if (isContactPresent) {
             duplicateContactMessage.addClass("show");
@@ -45,7 +49,7 @@ $(function () {
             return;
         }
 
-        phoneBook.push({
+        contacts.push({
             id: id,
             firstName: firstNameText,
             lastName: lastNameText,
@@ -60,7 +64,7 @@ $(function () {
 
         contactsCheckBox.prop("checked", false);
 
-        showPhoneBook(phoneBook);
+        showPhoneBook(contacts);д
     });
 
     resetFormButton.click(function () {
@@ -72,45 +76,49 @@ $(function () {
     searchButton.click(function () {
         var searchText = $("#search-contact").val().trim().toUpperCase();
 
+        contactsCheckBox.prop("checked", false);
+        contactsToDelete = [];
+
         if (searchText.length === 0) {
+            showPhoneBook(contacts);
             return;
         }
 
-        var searchResult = phoneBook.filter(function (contact) {
+        var searchResult = contacts.filter(function (contact) {
             return contact.firstName.toUpperCase().includes(searchText)
                 || contact.lastName.toUpperCase().includes(searchText)
                 || contact.phone.toUpperCase().includes(searchText);
         });
 
         showPhoneBook(searchResult);
-
-        contactsCheckBox.prop("checked", false);
     });
 
     resetSearchButton.click(function () {
         searchInput.val("");
-        showPhoneBook(phoneBook);
+        showPhoneBook(contacts);
     });
 
     contactsCheckBox.click(function () {
         contactsToDelete = [];
 
         var contactCheckBoxes = $(".contact-checkbox");
+        contactCheckBoxes.prop("checked", false);
 
         if (this.checked) {
-            contactCheckBoxes
-                .prop("checked", false)
-                .click();
-
-            return;
+            contactCheckBoxes.click();
         }
-
-        contactCheckBoxes.prop("checked", false);
     });
 
     deleteCheckedContactsButton.click(function () {
-        $("#modal-delete-contacts-button").click(function () {
+        modalDeleteButton.click(function () {
+            modalDialog.hide();
+
+            if (searchInput.val().trim().length !== 0) {
+                searchInput.val("")
+            }
+
             if (contactsToDelete.length === 0) {
+                showPhoneBook(contacts);
                 return;
             }
 
@@ -120,13 +128,13 @@ $(function () {
 
             contactsToDelete = [];
 
-            if (searchInput.val().trim().length !== 0) {
-                searchInput.val("")
-            }
-
-            showPhoneBook(phoneBook);
+            showPhoneBook(contacts);
         });
     });
+
+    modalDialogElement.on("hidden.bs.modal", function () {
+        modalDeleteButton.off();
+    })
 
     function clearForm() {
         firstNameInput.val("");
@@ -134,16 +142,14 @@ $(function () {
         phoneInput.val("");
     }
 
-    function showPhoneBook(contacts) {
-        phoneBookTable.find("tbody").remove();
+    function showPhoneBook(phoneBookContacts) {
+        contactsList.find("tr").remove();
 
-        if (contacts.length === 0) {
+        if (phoneBookContacts.length === 0) {
             return;
         }
 
-        $("<tbody>").appendTo(phoneBookTable);
-
-        contacts.forEach(function (contact, index) {
+        phoneBookContacts.forEach(function (contact, index) {
             var newRow = $("<tr>")
                 .attr("scope", "row");
 
@@ -184,29 +190,33 @@ $(function () {
 
             $("<td>")
                 .html("<button type='button' class='btn btn-danger delete-contact-button'\
-                        data-bs-toggle='modal' data-bs-target='#delete-contact-confirmation'>delete</button>")
+                        data-bs-toggle='modal' data-bs-target='#delete-confirmation'>Delete</button>")
                 .appendTo(newRow);
 
             newRow.find(".delete-contact-button").click(function () {
-                $("#modal-delete-contact-button").click(function () {
-                    deleteContact(contact);
-                    contactsToDelete = [];
+                $(".contact-checkbox").prop("checked", false);
+                contactsCheckBox.prop("checked", false);
+                contactsToDelete = [];
 
-                    showPhoneBook(phoneBook);
-                    contactsCheckBox.prop("checked", false);
-                    searchInput.val("");
+                searchInput.val("");
+
+                modalDeleteButton.click(function () {
+                    deleteContact(contact);
+                    modalDialog.hide();
+
+                    showPhoneBook(contacts);
                 });
             });
 
-            newRow.appendTo($("tbody"));
+            newRow.appendTo(contactsList);
         });
     }
 
-    function deleteContacts(contacts) {
-        phoneBook = _.difference(phoneBook, contacts);
+    function deleteContacts(contactsToDelete) {
+        contacts = _.difference(contacts, contactsToDelete);
     }
 
     function deleteContact(contact) {
-        phoneBook = _.without(phoneBook, contact);
+        contacts = _.without(contacts, contact);
     }
 });
