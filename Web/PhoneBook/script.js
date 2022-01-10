@@ -64,7 +64,7 @@ $(function () {
 
         contactsCheckBox.prop("checked", false);
 
-        showPhoneBook(contacts);д
+        showPhoneBook(contacts);
     });
 
     resetFormButton.click(function () {
