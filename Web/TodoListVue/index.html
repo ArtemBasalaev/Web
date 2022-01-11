@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <script defer src="node_modules/jquery/dist/jquery.js"></script>
+    <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script defer src="node_modules/vue/dist/vue.js"></script>
+    <script defer src="script.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div v-cloak id="app">
+        <todo-list></todo-list>
+    </div>
+</div>
+<script id="todo-list-template" type="text/x-template">
+    <div>
+        <h1 class="display-3">Todo List</h1>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form id="todo-form" novalidate>
+                    <label for="new-todo-activity" class="form-label">Ваша запланированная активность:</label>
+                    <input v-model="newTodoText" type="text" class="form-control" id="new-todo-activity"
+                           :class="{ 'is-invalid': isNewTodoTextInvalid} " required>
+                    <div class="invalid-feedback">*заполните поле</div>
+                    <button @click="addNewTodoItem" type="button" class="btn btn-primary mt-2" id="new-todo-button">
+                        Добавить
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="row list-todo-activity mt-2">
+            <div class="col-md-6 ">
+                <ul class="list-group list-group-flush" id="todo-list">
+                    <todo-list-item @delete-item="deleteItem" @save-item="saveItem" :item="item" :index="index"
+                                    v-for="(item, index) in items" :key="item.id"></todo-list-item>
+                </ul>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="todo-list-item-template" type="text/x-template">
+    <li class="list-group-item ps-0">
+        <div v-if="!isEditing">
+            <span>{{ item.text }}</span>
+            <div class='my-2'>
+                <button @click="editItem" type='button' class='btn btn-success btn-sm edit-button'>Изменить
+                </button>
+                <button @click="deleteItem" type='button' class='btn btn-danger btn-sm delete-button'>Удалить</button>
+            </div>
+        </div>
+        <div v-else>
+            <input class="form-control" v-model="editingText" type="text" :class="{ 'is-invalid': isInvalid }" required>
+            <div class='my-2'>
+                <button @click="saveItem" type='button' class='btn btn-success btn-sm edit-button'>Сохранить</button>
+                <button @click="isEditing = false" type='button' class='btn btn-danger btn-sm delete-button'>Отмена
+                </button>
+            </div>
+        </div>
+    </li>
+</script>
+</body>
+</html>
