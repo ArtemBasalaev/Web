@@ -21,20 +21,18 @@
         <h1 class="display-3">Todo List</h1>
         <div class="row mb-3">
             <div class="col-md-6">
-                <form id="todo-form" novalidate>
+                <form novalidate>
                     <label for="new-todo-activity" class="form-label">Ваша запланированная активность:</label>
                     <input v-model="newTodoText" type="text" class="form-control" id="new-todo-activity"
                            :class="{ 'is-invalid': isNewTodoTextInvalid} " required>
                     <div class="invalid-feedback">*заполните поле</div>
-                    <button @click="addNewTodoItem" type="button" class="btn btn-primary mt-2" id="new-todo-button">
-                        Добавить
-                    </button>
+                    <button @click="addNewTodoItem" type="button" class="btn btn-primary mt-2">Добавить</button>
                 </form>
             </div>
         </div>
         <div class="row list-todo-activity mt-2">
             <div class="col-md-6 ">
-                <ul class="list-group list-group-flush" id="todo-list">
+                <ul class="list-group list-group-flush">
                     <todo-list-item @delete-item="deleteItem" @save-item="saveItem" :item="item" :index="index"
                                     v-for="(item, index) in items" :key="item.id"></todo-list-item>
                 </ul>
