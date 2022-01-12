@@ -4,11 +4,6 @@ Vue.component("todo-list-item", {
             type: Object,
             required: true
         },
-
-        index: {
-            type: Number,
-            required: true
-        }
     },
 
     data: function () {
@@ -24,7 +19,7 @@ Vue.component("todo-list-item", {
     methods: {
         editItem: function () {
             this.isEditing = true;
-            this.editingText = this.item.text
+            this.editingText = this.item.text;
         },
 
         saveItem: function () {
@@ -32,7 +27,7 @@ Vue.component("todo-list-item", {
 
             var newText = this.editingText;
 
-            if (newText.length === 0) {
+            if (newText.trim().length === 0) {
                 this.isInvalid = true;
                 return;
             }
@@ -88,7 +83,7 @@ Vue.component("todo-list", {
         deleteItem: function (item) {
             this.items = this.items.filter(function (e) {
                 return e !== item;
-            })
+            });
         },
 
         saveItem: function (item, newText) {

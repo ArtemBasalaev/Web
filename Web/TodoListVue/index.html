@@ -24,7 +24,7 @@
                 <form novalidate>
                     <label for="new-todo-activity" class="form-label">Ваша запланированная активность:</label>
                     <input v-model="newTodoText" type="text" class="form-control" id="new-todo-activity"
-                           :class="{ 'is-invalid': isNewTodoTextInvalid} " required>
+                           :class="{ 'is-invalid': isNewTodoTextInvalid}" required>
                     <div class="invalid-feedback">*заполните поле</div>
                     <button @click="addNewTodoItem" type="button" class="btn btn-primary mt-2">Добавить</button>
                 </form>
@@ -33,8 +33,11 @@
         <div class="row list-todo-activity mt-2">
             <div class="col-md-6 ">
                 <ul class="list-group list-group-flush">
-                    <todo-list-item @delete-item="deleteItem" @save-item="saveItem" :item="item" :index="index"
-                                    v-for="(item, index) in items" :key="item.id"></todo-list-item>
+                    <todo-list-item @delete-item="deleteItem"
+                                    @save-item="saveItem"
+                                    v-for="(item, index) in items" :key="item.id"
+                                    :item="item"
+                                    :index="index"></todo-list-item>
                 </ul>
             </div>
         </div>
@@ -45,8 +48,7 @@
         <div v-if="!isEditing">
             <span>{{ item.text }}</span>
             <div class='my-2'>
-                <button @click="editItem" type='button' class='btn btn-success btn-sm edit-button'>Изменить
-                </button>
+                <button @click="editItem" type='button' class='btn btn-success btn-sm edit-button'>Изменить</button>
                 <button @click="deleteItem" type='button' class='btn btn-danger btn-sm delete-button'>Удалить</button>
             </div>
         </div>
@@ -54,8 +56,7 @@
             <input class="form-control" v-model="editingText" type="text" :class="{ 'is-invalid': isInvalid }" required>
             <div class='my-2'>
                 <button @click="saveItem" type='button' class='btn btn-success btn-sm edit-button'>Сохранить</button>
-                <button @click="isEditing = false" type='button' class='btn btn-danger btn-sm delete-button'>Отмена
-                </button>
+                <button @click="isEditing = false" type='button' class='btn btn-danger btn-sm delete-button'>Отмена</button>
             </div>
         </div>
     </li>
