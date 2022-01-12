@@ -10,7 +10,18 @@ Vue.component("table-row", {
         index: {
             type: Number,
             required: true
+        },
+
+        isCheckedAll: {
+            type: Boolean,
+            required: true
         }
+    },
+
+    data: function () {
+        return {
+            isCheckedToDelete: false
+        };
     },
 
     methods: {
@@ -18,13 +29,15 @@ Vue.component("table-row", {
             this.$emit("save-deleted-contact", this.contact);
         },
 
-        addContactToDelete: function () {
-            if (this.contact.isCheckedToDelete) {
-                this.$emit("add-contact-to-delete-list", this.contact);
-                return;
-            }
+        changeContactDeleteStatus: function () {
+            this.$emit("change-delete-status", this.contact, this.isCheckedToDelete);
+        }
+    },
 
-            this.$emit("remove-contact-from-delete-list", this.contact);
+    watch: {
+        isCheckedAll: function (newValue) {
+            this.isCheckedToDelete = newValue;
+            this.changeContactDeleteStatus();
         }
     },
 
@@ -109,10 +122,8 @@ Vue.component("phone-book", {
 
             this.newId++;
 
-            this.changeContactsDeleteStatus(this.contacts, false);
             this.clearForm();
             this.clearSearch();
-
             this.isCheckedAllContacts = false;
         },
 
@@ -126,8 +137,8 @@ Vue.component("phone-book", {
         },
 
         searchContacts: function () {
-            this.changeContactsDeleteStatus(this.contacts, false);
             this.isCheckedAllContacts = false;
+            this.changeContactsDeleteStatus(this.contacts, false);
 
             var searchText = this.search.trim().toUpperCase();
 
@@ -151,7 +162,6 @@ Vue.component("phone-book", {
             this.searchResult = [];
 
             this.isCheckedAllContacts = false;
-            this.changeContactsDeleteStatus(this.contacts, false);
         },
 
         saveDeletedContact: function (contact) {
@@ -171,50 +181,13 @@ Vue.component("phone-book", {
             this.clearSearch();
         },
 
-        addContactToDeleteList: function (contact) {
-            contact.isCheckedToDelete = true;
-        },
-
-        removeContactFromDeleteList: function (contact) {
-            contact.isCheckedToDelete = false;
-
-            if (this.isSomeContactChecked(this.contacts)) {
-                this.isCheckedAllContacts = false;
-            }
-        },
-
-        changeTableHeadCheckBox: function () {
-            if (this.isSearching) {
-                if (this.isSomeContactChecked(this.searchResult)) {
-                    return;
-                }
-
-                if (this.isCheckedAllContacts) {
-                    this.changeContactsDeleteStatus(this.searchResult, true);
-                    return;
-                }
-
-                this.changeContactsDeleteStatus(this.searchResult, false);
-                return;
-            }
-
-            if (this.isCheckedAllContacts) {
-                this.changeContactsDeleteStatus(this.contacts, true);
-                return;
-            }
-
-            this.changeContactsDeleteStatus(this.contacts, false);
+        changeContactDeleteStatus: function (contact, status) {
+            contact.isCheckedToDelete = status;
         },
 
         changeContactsDeleteStatus: function (contacts, isChecked) {
             contacts.forEach(function (contact) {
                 contact.isCheckedToDelete = isChecked;
-            });
-        },
-
-        isSomeContactChecked: function (contacts) {
-            return contacts.some(function (contact) {
-                return contact.isCheckedToDelete === true;
             });
         }
     }

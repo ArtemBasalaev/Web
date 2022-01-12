@@ -60,7 +60,7 @@
                     <thead class="table-light">
                     <tr>
                         <th class="col-1" scope="col">
-                            <input type="checkbox" :value="true" v-model="isCheckedAllContacts" @change="changeTableHeadCheckBox">
+                            <input type="checkbox" :value="true" v-model="isCheckedAllContacts">
                         </th>
                         <th class="col-1" scope="col">№</th>
                         <th scope="col">First Name</th>
@@ -71,18 +71,18 @@
                     </thead>
                     <tbody>
                     <template v-if="!isSearching">
-                        <table-row @remove-contact-from-delete-list="removeContactFromDeleteList"
-                                   @add-contact-to-delete-list="addContactToDeleteList"
+                        <table-row @change-delete-status="changeContactDeleteStatus"
                                    @save-deleted-contact="saveDeletedContact"
                                    v-for="(contact, index) in contacts" :key="contact.id"
+                                   :isCheckedAll="isCheckedAllContacts"
                                    :index="index"
                                    :contact="contact"></table-row>
                     </template>
                     <template v-else>
-                        <table-row @remove-contact-from-delete-list="removeContactFromDeleteList"
-                                   @add-contact-to-delete-list="addContactToDeleteList"
+                        <table-row @change-delete-status="changeContactDeleteStatus"
                                    @save-deleted-contact="saveDeletedContact"
                                    v-for="(contact, index) in searchResult" :key="contact.id"
+                                   :isCheckedAll="isCheckedAllContacts"
                                    :index="index"
                                    :contact="contact"></table-row>
                     </template>
@@ -106,7 +106,7 @@
 <script id="phone-book-row" type="text/x-template">
     <tr>
         <td>
-            <input type="checkbox" :value="true" v-model="contact.isCheckedToDelete" @change="addContactToDelete">
+            <input type="checkbox" :value="true" v-model="isCheckedToDelete" @change="changeContactDeleteStatus">
         </td>
         <td v-text="index + 1"></td>
         <td v-text="contact.firstName"></td>
