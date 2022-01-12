@@ -74,7 +74,7 @@
                         <table-row @remove-contact-from-delete-list="removeContactFromDeleteList"
                                    @add-contact-to-delete-list="addContactToDeleteList"
                                    @save-deleted-contact="saveDeletedContact"
-                                   v-for="(contact, index) in contacts"
+                                   v-for="(contact, index) in contacts" :key="contact.id"
                                    :index="index"
                                    :contact="contact"></table-row>
                     </template>
@@ -82,7 +82,7 @@
                         <table-row @remove-contact-from-delete-list="removeContactFromDeleteList"
                                    @add-contact-to-delete-list="addContactToDeleteList"
                                    @save-deleted-contact="saveDeletedContact"
-                                   v-for="(contact, index) in searchResult"
+                                   v-for="(contact, index) in searchResult" :key="contact.id"
                                    :index="index"
                                    :contact="contact"></table-row>
                     </template>
