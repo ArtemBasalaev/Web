@@ -22,6 +22,7 @@ $(function () {
     var modalDeleteButton = $("#modal-delete-button");
     var modalDialogElement = $("#delete-confirmation");
     var modalDialog = new bootstrap.Modal(modalDialogElement);
+    var modalBody = $("#confirmation-text");
 
     var contacts = [];
     var contactsToDelete = [];
@@ -54,7 +55,7 @@ $(function () {
             firstName: firstNameText,
             lastName: lastNameText,
             phone: phoneText
-        })
+        });
 
         id++;
 
@@ -110,11 +111,14 @@ $(function () {
     });
 
     deleteCheckedContactsButton.click(function () {
+        modalBody.empty();
+        modalBody.html("<span>Are you sure you want to delete checked contacts?</span>");
+
         modalDeleteButton.click(function () {
             modalDialog.hide();
 
             if (searchInput.val().trim().length !== 0) {
-                searchInput.val("")
+                searchInput.val("");
             }
 
             if (contactsToDelete.length === 0) {
@@ -150,12 +154,11 @@ $(function () {
         }
 
         phoneBookContacts.forEach(function (contact, index) {
-            var newRow = $("<tr>")
-                .attr("scope", "row");
+            var newRow = $("<tr>");
 
             var checkBox = $("<input>")
                 .attr("type", "checkbox")
-                .addClass("contact-checkbox")
+                .addClass("contact-checkbox");
 
             checkBox.change(function () {
                 if (this.checked) {
@@ -170,7 +173,7 @@ $(function () {
 
             $("<td>")
                 .append(checkBox)
-                .appendTo(newRow)
+                .appendTo(newRow);
 
             $("<td>")
                 .text(index + 1)
@@ -194,6 +197,9 @@ $(function () {
                 .appendTo(newRow);
 
             newRow.find(".delete-contact-button").click(function () {
+                modalBody.empty();
+                modalBody.html("<span>Are you sure you want to delete this contact?</span>");
+
                 $(".contact-checkbox").prop("checked", false);
                 contactsCheckBox.prop("checked", false);
                 contactsToDelete = [];
