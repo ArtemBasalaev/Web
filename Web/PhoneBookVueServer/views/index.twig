@@ -1,0 +1,148 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    {% verbatim %}
+
+<script id="phone-book-template" type="text/x-template">
+    <div>
+        <h2 class="display-8 mt-5 mb-3">Add new contact</h2>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <form novalidate :class="{ 'was-validated': isInvalid }">
+                    <label for="first-name" class="form-label mt-2">First name:</label>
+                    <input v-model="firstNameInputText" type="text" class="form-control" id="first-name" required>
+                    <div class="invalid-feedback">*field is empty</div>
+                    <label for="last-name" class="form-label mt-2">Last name:</label>
+                    <input v-model="lastNameInputText" type="text" class="form-control" id="last-name" required>
+                    <div class="invalid-feedback">*field is empty</div>
+                    <label for="phone" class="form-label mt-2">Phone:</label>
+                    <input v-model="phoneInputText" type="text" class="form-control" id="phone" required>
+                    <div class="invalid-feedback">*field is empty</div>
+                    <button type="button" class="btn btn-primary my-3" @click="createContact">Add contact</button>
+                    <button type="button" class="btn btn-secondary my-3" @click="clearForm">Clear</button>
+                    <div class="collapse" id="collapse-message" :class="{ 'show': isContactPresent }">
+                        <div class="card card-body text-danger fw-bold">Phone number already exist!</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h2 class="display-8 mt-3 mb-3">Search</h2>
+        <form id="search-form" class="row g-2" novalidate>
+            <div class="col-auto">
+                <input v-model="search" type="text" class="form-control" id="search-contact">
+            </div>
+            <div class="col-auto">
+                <button @click="searchContacts" type="button" class="btn btn-primary">Search</button>
+                <button @click="clearSearch" type="button" class="btn btn-secondary">Clear</button>
+            </div>
+        </form>
+
+        <div class="container">
+            <h2 class="display-8 mt-5 mb-3">Contact list</h2>
+            <div class="table-responsive">
+                <table class="table align-middle" id="phone-book">
+                    <thead class="table-light">
+                    <tr>
+                        <th class="col-1" scope="col">
+                            <input type="checkbox" :value="true" v-model="isCheckedAllContacts">
+                        </th>
+                        <th class="col-1" scope="col">№</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Phone</th>
+                        <th class="col-1" scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <table-row @change-delete-status="changeContactDeleteStatus"
+                                   @save-deleted-contact="saveDeletedContact"
+                                   v-for="(contact, index) in contacts" :key="contact.id"
+                                   :isCheckedAll="isCheckedAllContacts"
+                                   :index="index"
+                                   :contact="contact"></table-row>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex flex-row-reverse">
+                <button @delete-checked-contact-confirm="deleteCheckedContacts" type="button" class="btn btn-danger mt-3"
+                        data-bs-toggle="modal" data-bs-target="#delete-contacts-confirmation">
+                    Delete checked
+                </button>
+            </div>
+
+            <modal-dialog-contacts-delete></modal-dialog-contacts-delete>
+            <modal-dialog-contact-delete></modal-dialog-contact-delete>
+        </div>
+    </div>
+</script>
+
+<script id="phone-book-row" type="text/x-template">
+    <tr>
+        <td>
+            <input type="checkbox" :value="true" v-model="isCheckedToDelete" @change="changeContactDeleteStatus">
+        </td>
+        <td v-text="index + 1"></td>
+        <td v-text="contact.firstName"></td>
+        <td v-text="contact.lastName"></td>
+        <td v-text="contact.phone"></td>
+        <td>
+            <button @click="saveDeleteContact" type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#delete-contact-confirmation">
+                Delete
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script id="modal-dialog-contact-delete-template" type="text/x-template">
+    <div class="modal fade" id="delete-contact-confirmation" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this contact?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button @click="confirmToDeleteContact" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="modal-dialog-contacts-delete-template" type="text/x-template">
+    <div class="modal fade" id="delete-contacts-confirmation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete checked contacts?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button @click="confirmToDeleteCheckedContacts" type="button" class="btn btn-danger"data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="container">
+    <div v-cloak id="app">
+        <phone-book></phone-book>
+    </div>
+</div>
+
+    {% endverbatim %}
+{% endblock %}
