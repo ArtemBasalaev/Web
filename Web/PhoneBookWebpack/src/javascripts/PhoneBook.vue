@@ -12,7 +12,7 @@ import ContactDeleteModalDialog from "./ContactDeleteModalDialog.vue";
 import ContactsDeleteModalDialog from "./ContactsDeleteModalDialog.vue";
 
 export default {
-  name: "app",
+  name: "App",
 
   components: {
     PhoneBookForm,

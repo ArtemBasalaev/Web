@@ -1,5 +1,4 @@
 <template>
-  <div id="modal-dialog-contact-delete-template" type="text/x-template">
     <div class="modal fade" id="delete-contact-confirmation" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -18,14 +17,13 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 import { eventBus } from "./script.js"
 
 export default {
-  name: "modal-dialog-contact-delete-template",
+  name: "DeleteContactConfirmation",
 
   methods: {
     confirmToDeleteContact() {

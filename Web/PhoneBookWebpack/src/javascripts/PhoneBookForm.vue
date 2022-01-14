@@ -91,7 +91,7 @@ function post(url, data) {
 }
 
 export default {
-  name: "phone-book-form",
+  name: "PhoneBookForm",
 
   components: {
     TableRow

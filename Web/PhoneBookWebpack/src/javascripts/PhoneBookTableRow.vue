@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "table-row",
+  name: "TableRow",
 
   props: {
     contact: {
