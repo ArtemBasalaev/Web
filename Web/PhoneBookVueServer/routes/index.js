@@ -37,8 +37,8 @@ router.post("/api/deleteContact", function (req, res, next) {
 router.post("/api/deleteContacts", function (req, res, next) {
     var contactsIdToDelete = req.body;
 
-    contacts = contacts.filter(contact => {
-        return !contactsIdToDelete.some(contactId => {
+    contacts = contacts.filter(function (contact) {
+        return !contactsIdToDelete.some(function (contactId) {
             return contact.id === contactId;
         });
     });
