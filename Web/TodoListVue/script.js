@@ -3,7 +3,7 @@ Vue.component("todo-list-item", {
         item: {
             type: Object,
             required: true
-        },
+        }
     },
 
     data: function () {
@@ -73,7 +73,7 @@ Vue.component("todo-list", {
 
             this.items.push({
                 id: this.newId,
-                text: text,
+                text: text
             });
 
             this.newTodoText = "";

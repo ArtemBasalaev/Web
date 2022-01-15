@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <script defer src="node_modules/jquery/dist/jquery.js"></script>
     <script defer src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script defer src="node_modules/vue/dist/vue.js"></script>
     <script defer src="script.js"></script>
@@ -35,9 +34,8 @@
                 <ul class="list-group list-group-flush">
                     <todo-list-item @delete-item="deleteItem"
                                     @save-item="saveItem"
-                                    v-for="(item, index) in items" :key="item.id"
-                                    :item="item"
-                                    :index="index"></todo-list-item>
+                                    v-for="(item) in items" :key="item.id"
+                                    :item="item"></todo-list-item>
                 </ul>
             </div>
         </div>
@@ -54,6 +52,7 @@
         </div>
         <div v-else>
             <input class="form-control" v-model="editingText" type="text" :class="{ 'is-invalid': isInvalid }" required>
+            <div class="invalid-feedback">*заполните поле</div>
             <div class='my-2'>
                 <button @click="saveItem" type='button' class='btn btn-success btn-sm edit-button'>Сохранить</button>
                 <button @click="isEditing = false" type='button' class='btn btn-danger btn-sm delete-button'>Отмена</button>
