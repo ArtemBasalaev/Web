@@ -38,9 +38,7 @@
                     <div class="invalid-feedback">*field is empty</div>
                     <button type="button" class="btn btn-primary my-3" @click="addContact">Add contact</button>
                     <button type="button" class="btn btn-secondary my-3" @click="clearForm">Clear</button>
-                    <div class="collapse" id="collapse-message" :class="{ 'show': isContactPresent }">
-                        <div class="card card-body text-danger fw-bold">Phone number already exist!</div>
-                    </div>
+                    <div class="text-danger fw-bold" v-show="isContactPresent">Phone number already exist!</div>
                 </form>
             </div>
         </div>
