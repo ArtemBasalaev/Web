@@ -157,7 +157,7 @@ $(function () {
             var newRow = $("<tr>");
 
             var checkBox = $("<input>")
-                .attr("type", "checkbox")
+                .prop("type", "checkbox")
                 .addClass("contact-checkbox");
 
             checkBox.change(function () {
