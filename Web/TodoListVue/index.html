@@ -34,7 +34,7 @@
                 <ul class="list-group list-group-flush">
                     <todo-list-item @delete-item="deleteItem"
                                     @save-item="saveItem"
-                                    v-for="(item) in items" :key="item.id"
+                                    v-for="item in items" :key="item.id"
                                     :item="item"></todo-list-item>
                 </ul>
             </div>
@@ -42,7 +42,7 @@
     </div>
 </script>
 <script id="todo-list-item-template" type="text/x-template">
-    <li class="list-group-item ps-0">
+    <li class="list-group-item px-0">
         <div v-if="!isEditing">
             <span>{{ item.text }}</span>
             <div class='my-2'>
