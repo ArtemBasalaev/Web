@@ -1,4 +1,6 @@
 Vue.component("table-row", {
+    template: "#phone-book-row",
+
     props: {
         contact: {
             type: Object,
@@ -25,56 +27,51 @@ Vue.component("table-row", {
     methods: {
         setContactToDelete: function () {
             this.$emit("set-contact-to-delete", this.contact);
+
         },
 
-        setContactDeleteStatus: function () {
-            this.$emit("set-contact-delete-status", this.contact, this.isChecked);
+        setContactCheckedToDelete: function () {
+            this.$emit("set-contact-checked-to-delete", this.contact, this.isChecked);
         }
     },
 
     watch: {
         isCheckedAll: function (newValue) {
             this.isChecked = newValue;
-            this.setContactDeleteStatus();
+            this.setContactCheckedToDelete();
         }
-    },
-
-    template: "#phone-book-row"
+    }
 });
 
-Vue.component("modal-dialog-contacts-delete", {
+Vue.component("modal-dialog", {
+    template: "#modal-dialog-template",
+
     props: {
-        hasContactsToDelete: {
+        isModalDialogDeleteContactMode: {
             type: Boolean,
-            required: true
+            require: true
         }
     },
 
     methods: {
-        confirmToDeleteCheckedContacts: function () {
+        confirmToDelete: function () {
+            if (this.isModalDialogDeleteContactMode) {
+                this.$emit("delete-contact-confirm");
+                return;
+            }
+
             this.$emit("delete-checked-contacts-confirm");
         }
-    },
-
-    template: "#modal-dialog-contacts-delete-template"
+    }
 });
-
-Vue.component("modal-dialog-contact-delete", {
-    methods: {
-        confirmToDeleteContact: function () {
-            this.$emit("delete-contact-confirm");
-        }
-    },
-
-    template: "#modal-dialog-contact-delete-template"
-});
-
 
 Vue.component("phone-book", {
+    template: "#phone-book-template",
+
     data: function () {
         return {
             contacts: [],
-            filteredContacts: this.contacts,
+            filteredContacts: [],
             contactToDelete: {},
 
             newId: 1,
@@ -88,10 +85,15 @@ Vue.component("phone-book", {
             isInvalid: false,
             hasContact: false,
             isCheckedAllContacts: false,
+            isModalDialogDeleteContactMode: false
         };
     },
 
-    template: "#phone-book-template",
+    watch: {
+        isCheckedAllContacts: function (newValue) {
+            this.hasContactsToDelete = newValue;
+        }
+    },
 
     methods: {
         addContact: function () {
@@ -118,12 +120,15 @@ Vue.component("phone-book", {
                 lastName: lastNameText,
                 phone: phoneText,
                 isCheckedToDelete: false
-            })
+            });
 
             this.newId++;
 
+            if (this.searchInputText.trim().length === 0) {
+                this.filteredContacts = this.contacts;
+            }
+
             this.clearForm();
-            this.clearSearch();
         },
 
         clearForm: function () {
@@ -138,11 +143,12 @@ Vue.component("phone-book", {
         searchContacts: function () {
             this.isCheckedAllContacts = false;
             this.hasContactsToDelete = false;
-            this.setContactsDeleteStatus(false);
+            this.setContactsCheckedToDelete(false);
 
             var searchText = this.searchInputText.trim().toUpperCase();
 
             if (searchText.length === 0) {
+                this.filteredContacts = this.contacts;
                 return;
             }
 
@@ -162,6 +168,7 @@ Vue.component("phone-book", {
 
         setContactToDelete: function (contact) {
             this.contactToDelete = contact;
+            this.isModalDialogDeleteContactMode = true;
         },
 
         deleteContact: function () {
@@ -183,20 +190,25 @@ Vue.component("phone-book", {
             this.hasContactsToDelete = false;
         },
 
-        setContactDeleteStatus: function (contact, status) {
-            contact.isCheckedToDelete = status;
+        setIsCheckedToDelete: function (contact, value) {
+            contact.isCheckedToDelete = value;
+            this.isContactsCheckedToDelete();
         },
 
-        setContactsDeleteStatus: function (isChecked) {
+        setContactsCheckedToDelete: function (isChecked) {
             this.contacts.forEach(function (contact) {
                 contact.isCheckedToDelete = isChecked;
             });
         },
 
-        checkContactsDeleteStatus: function () {
+        isContactsCheckedToDelete: function () {
             this.hasContactsToDelete = this.contacts.some(function (contact) {
                 return contact.isCheckedToDelete === true;
-            })
+            });
+        },
+
+        setModalDialogDeleteContactsMode: function () {
+            this.isModalDialogDeleteContactMode = false;
         }
     }
 });

@@ -69,30 +69,27 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <template>
-                        <table-row @set-contact-delete-status="setContactDeleteStatus"
-                                   @set-contact-to-delete="setContactToDelete"
-                                   v-for="(contact, index) in filteredContacts" :key="contact.id"
-                                   :is-checked-all="isCheckedAllContacts"
-                                   :index="index"
-                                   :contact="contact"></table-row>
-                    </template>
+                    <table-row @set-contact-checked-to-delete="setIsCheckedToDelete"
+                               @set-contact-to-delete="setContactToDelete"
+                               v-for="(contact, index) in filteredContacts" :key="contact.id"
+                               :is-checked-all="isCheckedAllContacts"
+                               :index="index"
+                               :contact="contact"></table-row>
                     </tbody>
                 </table>
             </div>
 
             <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-danger my-3" data-bs-toggle="modal"
-                        data-bs-target="#delete-contacts-confirmation" @click="checkContactsDeleteStatus">
+                <button type="button" class="btn btn-danger my-3" data-bs-target="#delete-confirmation" data-bs-toggle="modal"
+                        @click="setModalDialogDeleteContactsMode" :disabled="!hasContactsToDelete">
                     Delete checked
                 </button>
             </div>
 
-            <modal-dialog-contacts-delete
+            <modal-dialog
+                    :isModalDialogDeleteContactMode="isModalDialogDeleteContactMode"
                     @delete-checked-contacts-confirm="deleteCheckedContacts"
-                    :has-contacts-to-delete="hasContactsToDelete"></modal-dialog-contacts-delete>
-
-            <modal-dialog-contact-delete @delete-contact-confirm="deleteContact"></modal-dialog-contact-delete>
+                    @delete-contact-confirm="deleteContact"></modal-dialog>
         </div>
     </div>
 </script>
@@ -100,7 +97,7 @@
 <script id="phone-book-row" type="text/x-template">
     <tr>
         <td>
-            <input type="checkbox" :value="true" v-model="isChecked" @change="setContactDeleteStatus">
+            <input type="checkbox" :value="true" v-model="isChecked" @change="setContactCheckedToDelete">
         </td>
         <td v-text="index + 1"></td>
         <td v-text="contact.firstName"></td>
@@ -108,15 +105,15 @@
         <td v-text="contact.phone"></td>
         <td>
             <button @click="setContactToDelete" type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#delete-contact-confirmation">
+                    data-bs-target="#delete-confirmation">
                 Delete
             </button>
         </td>
     </tr>
 </script>
 
-<script id="modal-dialog-contact-delete-template" type="text/x-template">
-    <div class="modal fade" id="delete-contact-confirmation" data-bs-backdrop="static" data-bs-keyboard="false"
+<script id="modal-dialog-template" type="text/x-template">
+    <div class="modal fade" id="delete-confirmation" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -124,37 +121,15 @@
                     <h5 class="modal-title">Confirm delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" v-if="isModalDialogDeleteContactMode">
                     <p>Are you sure you want to delete this contact?</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button @click="confirmToDeleteContact" type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-
-<script id="modal-dialog-contacts-delete-template" type="text/x-template">
-    <div class="modal fade" id="delete-contacts-confirmation" data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+                <div class="modal-body" v-else>
                     <p>Are you sure you want to delete checked contacts?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button  :disabled="!hasContactsToDelete" @click="confirmToDeleteCheckedContacts" type="button"
-                             class="btn btn-danger" data-bs-dismiss="modal">
+                    <button @click="confirmToDelete" type="button" class="btn btn-danger" data-bs-dismiss="modal">
                         Delete
                     </button>
                 </div>
