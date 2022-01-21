@@ -47,25 +47,15 @@ Vue.component("modal-dialog", {
     template: "#modal-dialog-template",
 
     props: {
-        isModalDialogDeleteContactMode: {
-            type: Boolean,
-            require: true
-        },
-
         dialogMessage: {
             type: String,
-            require: true
+            required: true
         }
     },
 
     methods: {
         confirmToDelete: function () {
-            if (this.isModalDialogDeleteContactMode) {
-                this.$emit("delete-contact-confirm");
-                return;
-            }
-
-            this.$emit("delete-checked-contacts-confirm");
+            this.$emit("delete-confirm");
         }
     }
 });
@@ -178,6 +168,15 @@ Vue.component("phone-book", {
 
             this.isModalDialogDeleteContactMode = true;
             this.dialogMessage = "Are you sure you want to delete contact?";
+        },
+
+        deleteWithConfirmation: function () {
+            if (this.isModalDialogDeleteContactMode) {
+                this.deleteContact();
+                return;
+            }
+
+            this.deleteCheckedContacts();
         },
 
         deleteContact: function () {

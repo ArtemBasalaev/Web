@@ -86,11 +86,7 @@
                 </button>
             </div>
 
-            <modal-dialog
-                    :isModalDialogDeleteContactMode="isModalDialogDeleteContactMode"
-                    :dialogMessage="dialogMessage"
-                    @delete-checked-contacts-confirm="deleteCheckedContacts"
-                    @delete-contact-confirm="deleteContact"></modal-dialog>
+            <modal-dialog :dialogMessage="dialogMessage" @delete-confirm="deleteWithConfirmation"></modal-dialog>
         </div>
     </div>
 </script>
