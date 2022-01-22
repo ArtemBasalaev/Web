@@ -27,7 +27,6 @@ Vue.component("table-row", {
     methods: {
         setContactToDelete: function () {
             this.$emit("set-contact-to-delete", this.contact);
-
         },
 
         setContactCheckedToDelete: function () {
