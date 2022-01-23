@@ -1,7 +1,6 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-/* GET home page. */
 router.get("/", function (req, res, next) {
     res.render("index", {title: "Express"});
 });
@@ -79,11 +78,11 @@ router.post("/api/createContact", function (req, res, next) {
         return;
     }
 
-    var isContactPresent = contacts.some(function (contact) {
+    var hasContact = contacts.some(function (contact) {
         return requestData.phone === contact.phone;
     });
 
-    if (isContactPresent) {
+    if (hasContact) {
         res.send({
             success: false,
             message: "Phone number already exist!"
@@ -97,7 +96,7 @@ router.post("/api/createContact", function (req, res, next) {
         firstName: requestData.firstName,
         lastName: requestData.lastName,
         phone: requestData.phone
-    }
+    };
 
     contactId++;
 

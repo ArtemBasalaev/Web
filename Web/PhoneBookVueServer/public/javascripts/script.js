@@ -13,9 +13,9 @@ function post(url, data) {
     });
 }
 
-var eventBus = new Vue();
-
 Vue.component("table-row", {
+    template: "#phone-book-row",
+
     props: {
         contact: {
             type: Object,
@@ -35,52 +35,48 @@ Vue.component("table-row", {
 
     data: function () {
         return {
-            isCheckedToDelete: false
+            isChecked: false
         };
     },
 
     methods: {
-        saveDeleteContact: function () {
-            this.$emit("save-deleted-contact", this.contact);
+        setContactToDelete: function () {
+            this.$emit("set-contact-to-delete", this.contact);
         },
 
-        changeContactDeleteStatus: function () {
-            this.$emit("change-delete-status", this.contact, this.isCheckedToDelete);
+        setContactCheckedToDelete: function () {
+            this.$emit("set-contact-checked-to-delete", this.contact, this.isChecked);
         }
     },
 
     watch: {
         isCheckedAll: function (newValue) {
-            this.isCheckedToDelete = newValue;
-            this.changeContactDeleteStatus();
+            this.isChecked = newValue;
+            this.setContactCheckedToDelete();
+        }
+    },
+});
+
+Vue.component("modal-dialog", {
+    template: "#modal-dialog-template",
+
+    props: {
+        dialogMessage: {
+            type: String,
+            required: true
         }
     },
 
-    template: "#phone-book-row"
-});
-
-Vue.component("modal-dialog-contacts-delete", {
     methods: {
-        confirmToDeleteCheckedContacts: function () {
-            eventBus.$emit("delete-checked-contacts-confirm");
+        confirmToDelete: function () {
+            this.$emit("delete-confirm");
         }
-    },
-
-    template: "#modal-dialog-contacts-delete-template"
+    }
 });
-
-Vue.component("modal-dialog-contact-delete", {
-    methods: {
-        confirmToDeleteContact: function () {
-            eventBus.$emit("delete-contact-confirm");
-        }
-    },
-
-    template: "#modal-dialog-contact-delete-template"
-});
-
 
 Vue.component("phone-book", {
+    template: "#phone-book-template",
+
     data: function () {
         return {
             contacts: [],
@@ -90,25 +86,36 @@ Vue.component("phone-book", {
             lastNameInputText: "",
             phoneInputText: "",
 
-            search: "",
+            searchInputText: "",
             therm: "",
 
+            hasContactsToDelete: false,
             isInvalid: false,
-            isContactPresent: false,
+            hasContact: false,
             isCheckedAllContacts: false,
+            isModalDialogDeleteContactMode: false,
+
+            dialogMessage: ""
         };
     },
 
-    template: "#phone-book-template",
-
     created() {
-        eventBus.$on("delete-checked-contacts-confirm", this.deleteCheckedContacts);
-        eventBus.$on("delete-contact-confirm", this.deleteContact);
         this.loadContacts();
+    },
+
+    watch: {
+        isCheckedAllContacts: function (newValue) {
+            this.setContactsCheckedToDelete(newValue);
+            this.isContactsCheckedToDelete();
+        }
     },
 
     methods: {
         loadContacts: function () {
+            this.contacts = [];
+            this.isCheckedAllContacts = false;
+            this.hasContactsToDelete = false;
+
             var self = this;
 
             get("/api/getContacts", {term: this.term})
@@ -119,70 +126,13 @@ Vue.component("phone-book", {
                             firstName: contact.firstName,
                             lastName: contact.lastName,
                             phone: contact.phone,
-                            isCheckedToDelete: false
+                            isChecked: false
                         };
                     });
-
-                    self.clearForm();
-                    self.isCheckedAllContacts = false;
                 })
                 .fail(function () {
                     alert("Error load contacts");
                 });
-        },
-
-        deleteContact: function () {
-            var self = this;
-
-            post("/api/deleteContact", {id: self.contactToDelete.id})
-                .done(function (response) {
-                    if (!response.success) {
-                        alert(response.message);
-                        return;
-                    }
-
-                    self.search = "";
-                    self.term = "";
-                    self.loadContacts();
-                })
-                .fail(function () {
-                    alert("Error delete contact");
-                });
-        },
-
-        saveDeletedContact: function (contact) {
-            this.contactToDelete = contact;
-        },
-
-        changeContactDeleteStatus: function (contact, status) {
-            contact.isCheckedToDelete = status;
-        },
-
-        deleteCheckedContacts: function () {
-            var contactsIdToDelete = this.contacts.filter(function (contact) {
-                return contact.isCheckedToDelete === true;
-            }).map(function (contact) {
-                return contact.id;
-            });
-
-            var self = this;
-
-            post("/api/deleteContacts", contactsIdToDelete)
-                .done(function (response) {
-                    if (!response.success) {
-                        alert(response.message);
-                        return;
-                    }
-
-                    self.search = "";
-                    self.term = "";
-                    self.loadContacts();
-                })
-                .fail(function () {
-                    alert("Error delete contacts")
-                });
-
-            this.clearSearch();
         },
 
         createContact: function () {
@@ -207,12 +157,11 @@ Vue.component("phone-book", {
                 .done(function (response) {
                     if (!response.success) {
                         self.isInvalid = false;
-                        self.isContactPresent = true;
+                        self.hasContact = true;
                         return;
                     }
 
-                    self.search = "";
-                    self.term = "";
+                    self.clearForm();
                     self.loadContacts();
                 })
                 .fail(function () {
@@ -226,18 +175,97 @@ Vue.component("phone-book", {
             this.phoneInputText = "";
 
             this.isInvalid = false;
-            this.isContactPresent = false;
+            this.hasContact = false;
         },
 
         searchContacts: function () {
-            this.term = this.search.trim();
+            this.term = this.searchInputText.trim();
             this.loadContacts();
         },
 
         clearSearch: function () {
-            this.search = "";
+            this.searchInputText = "";
             this.term = "";
+
             this.loadContacts();
+        },
+
+        setContactToDelete: function (contact) {
+            this.contactToDelete = contact;
+
+            this.isModalDialogDeleteContactMode = true;
+            this.dialogMessage = "Are you sure you want to delete contact?";
+        },
+
+        deleteWithConfirmation: function () {
+            if (this.isModalDialogDeleteContactMode) {
+                this.deleteContact();
+                return;
+            }
+
+            this.deleteCheckedContacts();
+        },
+
+        deleteContact: function () {
+            var self = this;
+
+            post("/api/deleteContact", {id: self.contactToDelete.id})
+                .done(function (response) {
+                    if (!response.success) {
+                        alert(response.message);
+                        return;
+                    }
+
+                    self.clearSearch();
+                })
+                .fail(function () {
+                    alert("Error delete contact");
+                });
+        },
+
+        deleteCheckedContacts: function () {
+            var contactsIdToDelete = this.contacts.filter(function (contact) {
+                return contact.isChecked === true;
+            }).map(function (contact) {
+                return contact.id;
+            });
+
+            var self = this;
+
+            post("/api/deleteContacts", contactsIdToDelete)
+                .done(function (response) {
+                    if (!response.success) {
+                        alert(response.message);
+                        return;
+                    }
+
+                    self.clearSearch();
+                })
+                .fail(function () {
+                    alert("Error delete contacts")
+                });
+        },
+
+        setIsCheckedToDelete: function (contact, value) {
+            contact.isChecked = value;
+            this.isContactsCheckedToDelete();
+        },
+
+        isContactsCheckedToDelete: function () {
+            this.hasContactsToDelete = this.contacts.some(function (contact) {
+                return contact.isChecked === true;
+            });
+        },
+
+        setContactsCheckedToDelete: function (isChecked) {
+            this.contacts.forEach(function (contact) {
+                contact.isChecked = isChecked;
+            });
+        },
+
+        setModalDialogDeleteContactsMode: function () {
+            this.isModalDialogDeleteContactMode = false;
+            this.dialogMessage = "Are you sure you want to delete checked contacts?";
         }
     }
 });
