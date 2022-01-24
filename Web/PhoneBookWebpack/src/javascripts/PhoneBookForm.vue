@@ -73,24 +73,13 @@
 </template>
 
 <script>
-import $ from "jquery";
 import TableRow from "./PhoneBookTableRow.vue";
 import ModalDialog from "./ModalDialog.vue";
+import RequestMethods from "./RequestMethods";
+import ApiUrls from "./ApiUrls";
 
-function get(url, data) {
-  return $.get({
-    url,
-    data
-  });
-}
-
-function post(url, data) {
-  return $.post({
-    url,
-    data: JSON.stringify(data),
-    contentType: "application/json"
-  });
-}
+let apiUrls = new ApiUrls("/api/getContacts", "/api/createContact", "/api/deleteContact", "/api/deleteContacts");
+let requestMethods = new RequestMethods(apiUrls);
 
 export default {
   components: {
@@ -98,8 +87,11 @@ export default {
     ModalDialog
   },
 
-  data: function () {
+  data() {
     return {
+      requestMethods: requestMethods,
+      apiUrls: apiUrls,
+
       contacts: [],
       contactToDelete: {},
 
@@ -108,7 +100,7 @@ export default {
       phoneInputText: "",
 
       searchInputText: "",
-      therm: "",
+      term: "",
 
       hasContactsToDelete: false,
       isInvalid: false,
@@ -125,23 +117,21 @@ export default {
   },
 
   watch: {
-    isCheckedAllContacts: function (newValue) {
+    isCheckedAllContacts(newValue) {
       this.setContactsCheckedToDelete(newValue);
       this.isContactsCheckedToDelete();
     }
   },
 
   methods: {
-    loadContacts: function () {
+    loadContacts() {
       this.contacts = [];
       this.isCheckedAllContacts = false;
       this.hasContactsToDelete = false;
 
-      var self = this;
-
-      get("/api/getContacts", {term: this.term})
-          .done(function (contacts) {
-            self.contacts = contacts.map(function (contact) {
+      this.requestMethods.getContacts({term: this.term})
+          .done(contacts => {
+            this.contacts = contacts.map(contact => {
               return {
                 id: contact.id,
                 firstName: contact.firstName,
@@ -151,46 +141,40 @@ export default {
               };
             });
           })
-          .fail(function () {
-            alert("Error load contacts");
-          });
+          .fail(() => alert("Error load contacts"));
     },
 
-    createContact: function () {
-      var firstNameText = this.firstNameInputText.trim();
-      var lastNameText = this.lastNameInputText.trim();
-      var phoneText = this.phoneInputText.trim();
+    createContact() {
+      let firstNameText = this.firstNameInputText.trim();
+      let lastNameText = this.lastNameInputText.trim();
+      let phoneText = this.phoneInputText.trim();
 
       if (firstNameText.length === 0 || lastNameText.length === 0 || phoneText.length === 0) {
         this.isInvalid = true;
         return;
       }
 
-      var request = {
+      let request = {
         firstName: firstNameText,
         lastName: lastNameText,
         phone: phoneText
       };
 
-      var self = this;
-
-      post("/api/createContact", request)
-          .done(function (response) {
+      this.requestMethods.createContact(request)
+          .done(response => {
             if (!response.success) {
-              self.isInvalid = false;
-              self.hasContact = true;
+              this.isInvalid = false;
+              this.hasContact = true;
               return;
             }
 
-            self.clearForm();
-            self.loadContacts();
+            this.clearForm();
+            this.loadContacts();
           })
-          .fail(function () {
-            alert("Error create contact");
-          });
+          .fail(() => alert("Error create contact"));
     },
 
-    clearForm: function () {
+    clearForm() {
       this.firstNameInputText = "";
       this.lastNameInputText = "";
       this.phoneInputText = "";
@@ -199,26 +183,26 @@ export default {
       this.hasContact = false;
     },
 
-    searchContacts: function () {
+    searchContacts() {
       this.term = this.searchInputText.trim();
       this.loadContacts();
     },
 
-    clearSearch: function () {
+    clearSearch() {
       this.searchInputText = "";
       this.term = "";
 
       this.loadContacts();
     },
 
-    setContactToDelete: function (contact) {
+    setContactToDelete(contact) {
       this.contactToDelete = contact;
 
       this.isModalDialogDeleteContactMode = true;
       this.dialogMessage = "Are you sure you want to delete contact?";
     },
 
-    deleteWithConfirmation: function () {
+    deleteWithConfirmation() {
       if (this.isModalDialogDeleteContactMode) {
         this.deleteContact();
         return;
@@ -227,67 +211,55 @@ export default {
       this.deleteCheckedContacts();
     },
 
-    deleteContact: function () {
-      var self = this;
-
-      post("/api/deleteContact", {id: self.contactToDelete.id})
-          .done(function (response) {
+    deleteContact() {
+      this.requestMethods.deleteContact({id: this.contactToDelete.id})
+          .done(response => {
             if (!response.success) {
               alert(response.message);
               return;
             }
 
-            self.clearSearch();
+            this.clearSearch();
           })
-          .fail(function () {
-            alert("Error delete contact");
-          });
+          .fail(() => alert("Error delete contact"));
     },
 
-    deleteCheckedContacts: function () {
-      var contactsIdToDelete = this.contacts.filter(function (contact) {
+    deleteCheckedContacts() {
+      let contactsIdToDelete = this.contacts.filter(contact => {
         return contact.isChecked === true;
-      }).map(function (contact) {
+      }).map(contact => {
         return contact.id;
       });
 
-      var self = this;
-
-      post("/api/deleteContacts", contactsIdToDelete)
-          .done(function (response) {
+      this.requestMethods.deleteContacts(contactsIdToDelete)
+          .done(response => {
             if (!response.success) {
               alert(response.message);
               return;
             }
 
-            self.clearSearch();
+            this.clearSearch();
           })
-          .fail(function () {
-            alert("Error delete contacts")
-          });
+          .fail(() => alert("Error delete contacts"));
     },
 
-    setIsCheckedToDelete: function (contact, value) {
+    setIsCheckedToDelete(contact, value) {
       contact.isChecked = value;
       this.isContactsCheckedToDelete();
     },
 
-    isContactsCheckedToDelete: function () {
-      this.hasContactsToDelete = this.contacts.some(function (contact) {
-        return contact.isChecked === true;
-      });
+    isContactsCheckedToDelete() {
+      this.hasContactsToDelete = this.contacts.some(contact => contact.isChecked === true);
     },
 
-    setContactsCheckedToDelete: function (isChecked) {
-      this.contacts.forEach(function (contact) {
-        contact.isChecked = isChecked;
-      });
+    setContactsCheckedToDelete(isChecked) {
+      this.contacts.forEach(contact => contact.isChecked = isChecked);
     },
 
-    setModalDialogDeleteContactsMode: function () {
+    setModalDialogDeleteContactsMode() {
       this.isModalDialogDeleteContactMode = false;
       this.dialogMessage = "Are you sure you want to delete checked contacts?";
     }
   }
-}
+};
 </script>

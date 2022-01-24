@@ -42,20 +42,20 @@ export default {
   },
 
   methods: {
-    setContactToDelete: function () {
+    setContactToDelete() {
       this.$emit("set-contact-to-delete", this.contact);
     },
 
-    setContactCheckedToDelete: function () {
+    setContactCheckedToDelete() {
       this.$emit("set-contact-checked-to-delete", this.contact, this.isChecked);
     }
   },
 
   watch: {
-    isCheckedAll: function (newValue) {
+    isCheckedAll(newValue) {
       this.isChecked = newValue;
       this.setContactCheckedToDelete();
     }
-  },
-}
+  }
+};
 </script>

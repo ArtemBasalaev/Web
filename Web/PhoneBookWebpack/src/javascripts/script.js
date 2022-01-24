@@ -7,7 +7,5 @@ import "../stylesheets/style.scss";
 import PhoneBook from "./PhoneBook.vue";
 
 new Vue({
-    render(h) {
-        return h(PhoneBook);
-    },
-}).$mount("#app")
+    render: h => h(PhoneBook)
+}).$mount("#app");

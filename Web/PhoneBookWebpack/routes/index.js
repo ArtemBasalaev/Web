@@ -30,7 +30,7 @@ router.post("/api/deleteContact", (req, res, next) => {
         success: true,
         message: null
     });
-})
+});
 
 router.post("/api/deleteContacts", (req, res, next) => {
     let contactsIdToDelete = req.body;
@@ -103,6 +103,6 @@ router.post("/api/createContact", (req, res, next) => {
         success: true,
         message: null
     });
-})
+});
 
 module.exports = router;

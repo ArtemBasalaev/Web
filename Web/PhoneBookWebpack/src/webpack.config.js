@@ -12,7 +12,7 @@ module.exports = {
     output: {
         filename: "script.js",
         path: path.resolve(__dirname, "..", "public"),
-        publicPath: ""
+        assetModuleFilename: "[path][name][ext]?[contenthash]"
     },
 
     resolve: {
@@ -33,7 +33,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|svg|ttf|eot|woff|woff2)$/,
-                use: "file-loader?name=[path][name].[ext]?[contenthash]"
+                use: "asset/resource"
             },
             {
                 test: /\.js$/,
@@ -70,6 +70,7 @@ module.exports = {
         new VueLoaderPlugin(),
 
         new HtmlWebpackPlugin({
-            template: "index.html"})
+            template: "index.html"
+        })
     ]
 };
