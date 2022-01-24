@@ -2,6 +2,7 @@ const path = require("path");
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: "./javascripts/script.js",
@@ -51,11 +52,24 @@ module.exports = {
         ]
     },
 
+    devServer: {
+        hot: true,
+        open: true,
+        proxy: {
+            "/api": "http://localhost:3000/"
+        }
+    },
+
     plugins: [
         new CleanWebpackPlugin(),
+
         new MiniCssExtractPlugin({
             filename: "style.css"
         }),
-        new VueLoaderPlugin()
+
+        new VueLoaderPlugin(),
+
+        new HtmlWebpackPlugin({
+            template: "index.html"})
     ]
 };

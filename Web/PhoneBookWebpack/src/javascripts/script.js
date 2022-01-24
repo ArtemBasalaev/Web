@@ -6,8 +6,6 @@ import "../stylesheets/style.scss";
 
 import PhoneBook from "./PhoneBook.vue";
 
-export const eventBus = new Vue();
-
 new Vue({
     render(h) {
         return h(PhoneBook);

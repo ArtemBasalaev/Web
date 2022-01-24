@@ -1,15 +1,15 @@
 <template>
-  <tr id="table-row">
+  <tr>
     <td>
-      <input type="checkbox" :value="true" v-model="isCheckedToDelete" @change="changeContactDeleteStatus">
+      <input type="checkbox" :value="true" v-model="isChecked" @change="setContactCheckedToDelete">
     </td>
     <td v-text="index + 1"></td>
     <td v-text="contact.firstName"></td>
     <td v-text="contact.lastName"></td>
     <td v-text="contact.phone"></td>
     <td>
-      <button @click="saveDeleteContact" type="button" class="btn btn-danger" data-bs-toggle="modal"
-              data-bs-target="#delete-contact-confirmation">
+      <button @click="setContactToDelete" type="button" class="btn btn-danger" data-bs-toggle="modal"
+              data-bs-target="#delete-confirmation">
         Delete
       </button>
     </td>
@@ -18,8 +18,6 @@
 
 <script>
 export default {
-  name: "TableRow",
-
   props: {
     contact: {
       type: Object,
@@ -37,26 +35,26 @@ export default {
     }
   },
 
-  data() {
+  data: function () {
     return {
-      isCheckedToDelete: false
+      isChecked: false
     };
   },
 
   methods: {
-    saveDeleteContact() {
-      this.$emit("save-deleted-contact", this.contact);
+    setContactToDelete: function () {
+      this.$emit("set-contact-to-delete", this.contact);
     },
 
-    changeContactDeleteStatus() {
-      this.$emit("change-delete-status", this.contact, this.isCheckedToDelete);
+    setContactCheckedToDelete: function () {
+      this.$emit("set-contact-checked-to-delete", this.contact, this.isChecked);
     }
   },
 
   watch: {
-    isCheckedAll(newValue) {
-      this.isCheckedToDelete = newValue;
-      this.changeContactDeleteStatus();
+    isCheckedAll: function (newValue) {
+      this.isChecked = newValue;
+      this.setContactCheckedToDelete();
     }
   },
 }
