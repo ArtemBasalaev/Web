@@ -31,7 +31,7 @@ router.post("/api/deleteContact", function (req, res, next) {
         success: true,
         message: null
     });
-})
+});
 
 router.post("/api/deleteContacts", function (req, res, next) {
     var contactsIdToDelete = req.body;
@@ -106,6 +106,6 @@ router.post("/api/createContact", function (req, res, next) {
         success: true,
         message: null
     });
-})
+});
 
 module.exports = router;

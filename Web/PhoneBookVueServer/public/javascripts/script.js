@@ -87,7 +87,7 @@ Vue.component("phone-book", {
             phoneInputText: "",
 
             searchInputText: "",
-            therm: "",
+            term: "",
 
             hasContactsToDelete: false,
             isInvalid: false,
