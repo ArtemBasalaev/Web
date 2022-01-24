@@ -20,19 +20,19 @@ export default class RequestMethods {
         });
     }
 
-    getContacts(term){
+    getContacts(term) {
         return this.get(this.apiUrls.getContactsUrl, term);
     }
 
-    createContact(contact){
+    createContact(contact) {
         return this.post(this.apiUrls.createContactUrl, contact);
     }
 
-    deleteContact(contactId){
+    deleteContact(contactId) {
         return this.post(this.apiUrls.deleteContactUrl, contactId);
     }
 
-    deleteContacts(contactsId){
+    deleteContacts(contactsId) {
         return this.post(this.apiUrls.deleteContactsUrl, contactsId);
     }
 };
