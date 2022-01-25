@@ -61,13 +61,13 @@
       </div>
 
       <div class="d-flex flex-row-reverse pe-3">
-        <button type="button" class="btn btn-danger my-3" data-bs-toggle="modal" data-bs-target="#delete-confirmation"
+        <button type="button" class="btn btn-danger my-3" data-bs-toggle="modal" data-bs-target="#modal-dialog"
                 @click="setModalDialogDeleteContactsMode" :disabled="!hasContactsToDelete">
           Delete checked
         </button>
       </div>
 
-      <modal-dialog :dialog-message="dialogMessage" @delete-confirm="deleteWithConfirmation"></modal-dialog>
+      <modal-dialog :dialog-message="dialogMessage" @confirm="deleteWithConfirmation"></modal-dialog>
     </div>
   </div>
 </template>
@@ -75,11 +75,7 @@
 <script>
 import TableRow from "./PhoneBookTableRow.vue";
 import ModalDialog from "./ModalDialog.vue";
-import RequestMethods from "./RequestMethods";
-import ApiUrls from "./ApiUrls";
-
-let apiUrls = new ApiUrls("/api/getContacts", "/api/createContact", "/api/deleteContact", "/api/deleteContacts");
-let requestMethods = new RequestMethods(apiUrls);
+import PhoneBookService from "./phoneBookService";
 
 export default {
   components: {
@@ -89,8 +85,7 @@ export default {
 
   data() {
     return {
-      requestMethods: requestMethods,
-      apiUrls: apiUrls,
+      phoneBookService: new PhoneBookService(),
 
       contacts: [],
       contactToDelete: {},
@@ -129,7 +124,7 @@ export default {
       this.isCheckedAllContacts = false;
       this.hasContactsToDelete = false;
 
-      this.requestMethods.getContacts({term: this.term})
+      this.phoneBookService.getContacts({term: this.term})
           .done(contacts => {
             this.contacts = contacts.map(contact => {
               return {
@@ -160,7 +155,7 @@ export default {
         phone: phoneText
       };
 
-      this.requestMethods.createContact(request)
+      this.phoneBookService.createContact(request)
           .done(response => {
             if (!response.success) {
               this.isInvalid = false;
@@ -212,7 +207,7 @@ export default {
     },
 
     deleteContact() {
-      this.requestMethods.deleteContact({id: this.contactToDelete.id})
+      this.phoneBookService.deleteContact({id: this.contactToDelete.id})
           .done(response => {
             if (!response.success) {
               alert(response.message);
@@ -225,13 +220,13 @@ export default {
     },
 
     deleteCheckedContacts() {
-      let contactsIdToDelete = this.contacts.filter(contact => {
+      let contactsIdsToDelete = this.contacts.filter(contact => {
         return contact.isChecked === true;
       }).map(contact => {
         return contact.id;
       });
 
-      this.requestMethods.deleteContacts(contactsIdToDelete)
+      this.phoneBookService.deleteContacts(contactsIdsToDelete)
           .done(response => {
             if (!response.success) {
               alert(response.message);

@@ -1,10 +1,6 @@
 import $ from "jquery";
 
-export default class RequestMethods {
-    constructor(apiUrls) {
-        this.apiUrls = apiUrls;
-    }
-
+export default class PhoneBookService {
     get(url, data) {
         return $.get({
             url,
@@ -21,18 +17,18 @@ export default class RequestMethods {
     }
 
     getContacts(term) {
-        return this.get(this.apiUrls.getContactsUrl, term);
+        return this.get("/api/getContacts", term);
     }
 
     createContact(contact) {
-        return this.post(this.apiUrls.createContactUrl, contact);
+        return this.post("/api/createContact", contact);
     }
 
     deleteContact(contactId) {
-        return this.post(this.apiUrls.deleteContactUrl, contactId);
+        return this.post("/api/deleteContact", contactId);
     }
 
-    deleteContacts(contactsId) {
-        return this.post(this.apiUrls.deleteContactsUrl, contactsId);
+    deleteContacts(contactsIds) {
+        return this.post("/api/deleteContacts", contactsIds);
     }
 };

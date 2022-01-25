@@ -9,7 +9,7 @@ import PhoneBookForm from "./PhoneBookForm.vue";
 
 export default {
   components: {
-    PhoneBookForm,
+    PhoneBookForm
   }
 };
 </script>
