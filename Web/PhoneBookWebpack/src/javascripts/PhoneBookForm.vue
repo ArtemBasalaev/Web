@@ -67,7 +67,9 @@
         </button>
       </div>
 
-      <modal-dialog :dialog-message="dialogMessage" @confirm="deleteWithConfirmation"></modal-dialog>
+      <modal-dialog :dialog-message="dialogMessage"
+                    :dialog-title="dialogTitle"
+                    @confirm="deleteWithConfirmation"></modal-dialog>
     </div>
   </div>
 </template>
@@ -103,7 +105,8 @@ export default {
       isCheckedAllContacts: false,
       isModalDialogDeleteContactMode: false,
 
-      dialogMessage: ""
+      dialogMessage: "",
+      dialogTitle: "Confirm delete"
     };
   },
 
@@ -140,16 +143,16 @@ export default {
     },
 
     createContact() {
-      let firstNameText = this.firstNameInputText.trim();
-      let lastNameText = this.lastNameInputText.trim();
-      let phoneText = this.phoneInputText.trim();
+      const firstNameText = this.firstNameInputText.trim();
+      const lastNameText = this.lastNameInputText.trim();
+      const phoneText = this.phoneInputText.trim();
 
       if (firstNameText.length === 0 || lastNameText.length === 0 || phoneText.length === 0) {
         this.isInvalid = true;
         return;
       }
 
-      let request = {
+      const request = {
         firstName: firstNameText,
         lastName: lastNameText,
         phone: phoneText
@@ -220,7 +223,7 @@ export default {
     },
 
     deleteCheckedContacts() {
-      let contactsIdsToDelete = this.contacts.filter(contact => {
+      const contactsIdsToDelete = this.contacts.filter(contact => {
         return contact.isChecked === true;
       }).map(contact => {
         return contact.id;

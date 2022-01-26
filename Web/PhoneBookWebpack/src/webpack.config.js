@@ -5,12 +5,12 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    entry: "./javascripts/script.js",
+    entry: "./javascripts/main.js",
     devtool: "source-map",
     target: ["web", "es5"],
 
     output: {
-        filename: "script.js",
+        filename: "main.js",
         path: path.resolve(__dirname, "..", "public"),
         assetModuleFilename: "[path][name][ext]?[contenthash]"
     },

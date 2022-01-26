@@ -27,13 +27,12 @@ export default {
     dialogMessage: {
       type: String,
       required: true
-    }
-  },
+    },
 
-  data() {
-    return {
-      dialogTitle: "Confirm delete"
-    };
+    dialogTitle: {
+      type: String,
+      required: true
+    }
   },
 
   methods: {
