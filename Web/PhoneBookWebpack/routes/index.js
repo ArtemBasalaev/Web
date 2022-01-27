@@ -10,9 +10,9 @@ let contactId = 1;
 let contacts = [];
 
 router.get("/api/getContacts", (req, res, next) => {
-    let term = (req.query.term || "").toUpperCase();
+    const term = (req.query.term || "").toUpperCase();
 
-    let result = term.length === 0 ? contacts : contacts.filter(contact => {
+    const result = term.length === 0 ? contacts : contacts.filter(contact => {
         return contact.firstName.toUpperCase().includes(term)
             || contact.lastName.toUpperCase().includes(term)
             || contact.phone.toUpperCase().includes(term);
@@ -22,7 +22,7 @@ router.get("/api/getContacts", (req, res, next) => {
 });
 
 router.post("/api/deleteContact", (req, res, next) => {
-    let id = req.body.id;
+    const id = req.body.id;
 
     contacts = contacts.filter(contact => contact.id !== id);
 
@@ -33,7 +33,7 @@ router.post("/api/deleteContact", (req, res, next) => {
 });
 
 router.post("/api/deleteContacts", (req, res, next) => {
-    let contactsIdToDelete = req.body;
+    const contactsIdToDelete = req.body;
 
     contacts = contacts.filter(contact => {
         return !contactsIdToDelete.some(contactId => {
@@ -48,7 +48,7 @@ router.post("/api/deleteContacts", (req, res, next) => {
 });
 
 router.post("/api/createContact", (req, res, next) => {
-    let requestData = req.body;
+    const requestData = req.body;
 
     if (!requestData.firstName) {
         res.send({
@@ -77,7 +77,7 @@ router.post("/api/createContact", (req, res, next) => {
         return;
     }
 
-    let isContactPresent = contacts.some(contact => requestData.phone === contact.phone);
+    const isContactPresent = contacts.some(contact => requestData.phone === contact.phone);
 
     if (isContactPresent) {
         res.send({
