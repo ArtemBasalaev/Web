@@ -88,7 +88,7 @@ router.post("/api/createContact", (req, res, next) => {
         return;
     }
 
-    let contact = {
+    const contact = {
         id: contactId,
         firstName: requestData.firstName,
         lastName: requestData.lastName,
