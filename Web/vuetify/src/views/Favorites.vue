@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import FilmCard from "../components/FavoritesPageFilmCard";
+import FilmCard from "../components/FilmCard";
 
 export default {
   name: "Favorites",

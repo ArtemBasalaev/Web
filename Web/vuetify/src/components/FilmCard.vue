@@ -25,12 +25,16 @@ export default {
 
   computed: {
     genres() {
+      if (this.film.genres) {
+        return this.film.genres.map(genre => genre.name);
+      }
+
       return this.$store.state.genres.filter(genre => this.film.genre_ids.some(id => genre.id === id))
           .map(genre => genre.name);
     },
 
     posterPath() {
-      return this.film.poster_path === null ? "https://loghorizont.ru/wp-content/uploads/2021/06/cover.jpg"
+      return this.film.poster_path === null ? require("../images/no_poster.jpg")
           : "https://image.tmdb.org/t/p/w500" + this.film.poster_path;
     }
   },
