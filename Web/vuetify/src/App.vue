@@ -3,7 +3,7 @@
     <v-app-bar app height="75" class="red darken-4" shaped dark elevation="24">
       <v-app-bar-title>
         <router-link :to="{name: 'Home'}" class="text-decoration-none white--text">
-          <v-icon @click="resetStartPage" large>mdi-domain</v-icon>
+          <v-icon @click="redirectToStartPage" large>mdi-domain</v-icon>
         </router-link>
       </v-app-bar-title>
 
@@ -71,8 +71,8 @@ export default {
       this.searchText = "";
     },
 
-    resetStartPage(){
-      this.$store.dispatch("loadPopularFilms", 1);
+    redirectToStartPage(){
+      this.$store.dispatch("getPopularFilms", 1);
     }
   }
 }

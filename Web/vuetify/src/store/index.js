@@ -67,7 +67,7 @@ export default new Vuex.Store({
     },
 
     actions: {
-        loadPopularFilms(context, page) {
+        getPopularFilms(context, page) {
             context.commit("setPopularFilms", []);
             context.commit("setCurrentPage", page);
 
@@ -82,7 +82,7 @@ export default new Vuex.Store({
                 });
         },
 
-        loadFilmDescription(context, id) {
+        getFilmDescription(context, id) {
             context.commit("setFilmDescription", {});
 
             if (!localStorage["favoritesFilms"]) {

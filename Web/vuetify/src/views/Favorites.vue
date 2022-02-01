@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <h1 class="text-center my-4 text-h3 text-sm-h2 text-md-h2 text-lg-h3 white--text font-weight-black">
-      My favorites
-    </h1>
+    <h1 class="text-center my-4 text-h3 text-sm-h2 text-md-h2 text-lg-h3 white--text font-weight-black">My favorites</h1>
 
     <v-row class="mx-3" justify="center">
       <film-card v-for="film in favoritesFilms.slice(filmsCountAtPage * (page - 1), filmsCountAtPage * page)"

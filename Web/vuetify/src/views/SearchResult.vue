@@ -11,8 +11,7 @@
     <v-row>
       <v-col>
         <v-spacer></v-spacer>
-        <v-pagination dark v-model="page" :length="pagesCount" :total-visible="15"
-        ></v-pagination>
+        <v-pagination dark v-model="page" :length="pagesCount" :total-visible="15"></v-pagination>
         <v-spacer></v-spacer>
       </v-col>
     </v-row>

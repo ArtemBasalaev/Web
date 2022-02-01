@@ -147,14 +147,14 @@ export default {
     },
 
     posterPath() {
-      return this.filmDescription.poster_path === null ? "https://loghorizont.ru/wp-content/uploads/2021/06/cover.jpg"
+      return this.filmDescription.poster_path === null ? require("../images/no_poster.jpg")
           : "https://image.tmdb.org/t/p/w500" + this.filmDescription.poster_path;
     }
   },
 
   methods: {
     getFilmDescription(id) {
-      this.$store.dispatch("loadFilmDescription", id);
+      this.$store.dispatch("getFilmDescription", id);
       this.$store.dispatch("getRecommendation", id);
     },
 
