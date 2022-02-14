@@ -3,7 +3,7 @@
     <v-app-bar app height="75" class="red darken-4" shaped dark elevation="24">
       <v-app-bar-title>
         <router-link :to="{name: 'Home'}" class="text-decoration-none white--text">
-          <v-icon @click="redirectToStartPage" large>mdi-domain</v-icon>
+          <v-icon title="Redirect to start page" @click="redirectToStartPage" large>mdi-domain</v-icon>
         </router-link>
       </v-app-bar-title>
 
@@ -11,13 +11,12 @@
 
       <v-app-bar-title>
         <router-link :to="{name: 'Favorites'}" class="text-decoration-none white--text">
-          <v-icon large>mdi-heart</v-icon>
+          <v-icon class="py-2" title="Favorites" large>mdi-heart</v-icon>
         </router-link>
       </v-app-bar-title>
 
       <v-text-field
           v-model="searchText"
-          ref="searchText"
           hide-details
           placeholder="Search"
           rounded
@@ -27,7 +26,7 @@
 
       <router-link :to="{name: 'SearchResult'}" class="text-decoration-none">
         <v-btn icon @click="searchFilms">
-          <v-icon>mdi-magnify</v-icon>
+          <v-icon title="Search films">mdi-magnify</v-icon>
         </v-btn>
       </router-link>
     </v-app-bar>
@@ -44,15 +43,47 @@
         </v-card-title>
       </v-card>
     </v-footer>
+
+    <v-dialog v-model="dialog" width="500" @click:outside="resetError">
+      <v-card dark class="rounded-xl">
+        <v-card-title class="red darken-4 text-h5">ERROR</v-card-title>
+        <v-card-text class="text-h5 ps-5 pt-5 pb-0" v-text="errorMessage"></v-card-text>
+        <v-card-actions class="pt-0">
+          <v-spacer></v-spacer>
+          <v-btn text color="error" @click="resetError">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
 export default {
+  created() {
+    const pageFromUrl = Number(this.$route.params.page);
+
+    if (!pageFromUrl) {
+      this.$router.push({name: "Home", params: {page: "1"}});
+    }
+  },
+
   data() {
     return {
-      searchText: ""
+      searchText: "",
+      dialog: false
     };
+  },
+
+  computed: {
+    errorMessage() {
+      return this.$store.state.errorMessage;
+    }
+  },
+
+  watch: {
+    errorMessage(newValue) {
+      this.dialog = newValue;
+    }
   },
 
   methods: {
@@ -71,9 +102,14 @@ export default {
       this.searchText = "";
     },
 
-    redirectToStartPage(){
+    resetError() {
+      this.$store.commit("setErrorMessage", "");
+    },
+
+    redirectToStartPage() {
       this.$store.dispatch("getPopularFilms", 1);
+      this.$router.push({name: "Home", params: {page: '1'}});
     }
   }
-}
+};
 </script>

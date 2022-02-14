@@ -48,21 +48,24 @@
             <tr>
               <td class="font-weight-black">Production companies</td>
               <td>
-                <div v-for="(company, index) in filmDescription.production_companies" :key="index"
+                <div v-for="(company, index) in filmDescription.production_companies"
+                     :key="index"
                      v-text="company.name"></div>
               </td>
             </tr>
             <tr>
               <td class="font-weight-black">Country</td>
               <td>
-                <div v-for="(country, index) in filmDescription.production_countries" :key="index"
+                <div v-for="(country, index) in filmDescription.production_countries"
+                     :key="index"
                      v-text="country.name"></div>
               </td>
             </tr>
             <tr>
               <td class="font-weight-black">Languages</td>
               <td>
-                <div v-for="(spokenLanguage, index) in filmDescription.spoken_languages" :key="index"
+                <div v-for="(spokenLanguage, index) in filmDescription.spoken_languages"
+                     :key="index"
                      v-text="spokenLanguage.name"></div>
               </td>
             </tr>
@@ -78,11 +81,11 @@
           Favorites:
 
           <v-btn icon dark v-if="!inFavorites" @click="addToFavorites">
-            <v-icon large>mdi-heart</v-icon>
+            <v-icon title="Add to favorites" large>mdi-heart</v-icon>
           </v-btn>
 
           <v-btn icon color="red" dark v-else @click="removeFromFavorites">
-            <v-icon large>mdi-heart</v-icon>
+            <v-icon title="Remove from favorites" large>mdi-heart</v-icon>
           </v-btn>
         </h3>
       </v-col>
@@ -132,7 +135,7 @@ export default {
   computed: {
     filmDescription() {
       if (this.$store.state.filmDescription === null) {
-        this.$store.commit("setFilmDescription", JSON.parse(localStorage["filmDescription"]));
+        this.$store.commit("setFilmDescription", JSON.parse(localStorage.getItem("filmDescription")));
       }
 
       return this.$store.state.filmDescription;
@@ -140,7 +143,7 @@ export default {
 
     moviesRecommendationList() {
       if (this.$store.state.moviesRecommendation === null) {
-        this.$store.commit("setMovieRecommendation", JSON.parse(localStorage["movieRecommendation"]));
+        this.$store.commit("setMovieRecommendation", JSON.parse(localStorage.getItem("movieRecommendation")));
       }
 
       return this.$store.state.moviesRecommendation.results;
@@ -159,25 +162,25 @@ export default {
     },
 
     addToFavorites() {
-      if (!localStorage["favoritesFilms"]) {
-        localStorage["favoritesFilms"] = "[]";
+      if (!localStorage.getItem("favoritesFilms")) {
+        localStorage.setItem("favoritesFilms", "[]");
       }
 
-      let favoritesFilms = JSON.parse(localStorage["favoritesFilms"]);
+      let favoritesFilms = JSON.parse(localStorage.getItem("favoritesFilms"));
       favoritesFilms.push(this.filmDescription);
-      localStorage["favoritesFilms"] = JSON.stringify(favoritesFilms);
+      localStorage.setItem("favoritesFilms", JSON.stringify(favoritesFilms));
 
       this.inFavorites = true;
     },
 
     removeFromFavorites() {
-      if (!localStorage["favoritesFilms"]) {
+      if (!localStorage.getItem("favoritesFilms")) {
         return;
       }
 
-      let favoritesFilms = JSON.parse(localStorage["favoritesFilms"]);
+      let favoritesFilms = JSON.parse(localStorage.getItem("favoritesFilms"));
       favoritesFilms = favoritesFilms.filter(filmDescription => filmDescription.id !== this.filmDescription.id);
-      localStorage["favoritesFilms"] = JSON.stringify(favoritesFilms);
+      localStorage.setItem("favoritesFilms", JSON.stringify(favoritesFilms));
 
       this.inFavorites = false;
     }

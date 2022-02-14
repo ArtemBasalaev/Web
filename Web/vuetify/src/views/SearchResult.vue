@@ -1,6 +1,9 @@
 <template>
   <v-container>
     <h1 class="text-center my-4 text-h3 text-sm-h2 text-md-h2 text-lg-h3 white--text font-weight-black">Search films</h1>
+    <h1 class="text-center my-4 text-h3 text-sm-h3 text-md-h3 text-lg-h4 grey--text" v-if="isSearchFilmsResultEmpty">
+      Empty search result
+    </h1>
 
     <v-row class="mx-3" justify="center">
       <film-card v-for="film in searchFilmsResult.results"
@@ -31,7 +34,7 @@ export default {
   data() {
     return {
       page: 1
-    }
+    };
   },
 
   watch: {
@@ -49,8 +52,12 @@ export default {
       return this.$store.state.searchFilmsResult;
     },
 
+    isSearchFilmsResultEmpty() {
+      return this.searchFilmsResult.length === 0;
+    },
+
     pagesCount() {
-      return this.searchFilmsResult.total_pages
+      return this.searchFilmsResult.total_pages;
     }
   }
 };

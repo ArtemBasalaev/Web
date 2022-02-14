@@ -10,9 +10,10 @@ Vue.use(VueRouter);
 
 const routes = [
     {
-        path: "/",
+        path: "/:page",
         name: "Home",
         component: StartPage,
+        props: true
     },
     {
         path: "/film",

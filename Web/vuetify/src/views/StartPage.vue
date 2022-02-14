@@ -29,7 +29,15 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("getPopularFilms", this.$store.state.currentPage);
+    const pageFromUrl = Number(this.$route.params.page);
+
+    if (pageFromUrl) {
+      this.$store.dispatch("getPopularFilms", pageFromUrl);
+      this.page = pageFromUrl;
+    } else {
+      this.$router.push({name: "Home", params: {page: "1"}});
+      this.$store.dispatch("getPopularFilms", this.$store.state.currentPage);
+    }
 
     if (this.$store.state.genres.length === 0) {
       this.$store.dispatch("getGenres");
@@ -47,6 +55,7 @@ export default {
   watch: {
     page(newValue) {
       this.$store.dispatch("getPopularFilms", newValue);
+      this.$router.push({name: "Home", params: {page: newValue}});
     },
 
     popularFilms() {

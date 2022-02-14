@@ -32,7 +32,7 @@ export default {
     return {
       page: 1,
       filmsCountAtPage: 8
-    }
+    };
   },
 
   components: {
@@ -41,11 +41,15 @@ export default {
 
   computed: {
     favoritesFilms() {
-      return JSON.parse(localStorage["favoritesFilms"]);
+      if(!localStorage.getItem("favoritesFilms")){
+        localStorage.setItem("favoritesFilms", "[]");
+      }
+
+      return JSON.parse(localStorage.getItem("favoritesFilms"));
     },
 
     length() {
-      return Math.ceil(JSON.parse(localStorage["favoritesFilms"]).length / this.filmsCountAtPage);
+      return Math.ceil(JSON.parse(localStorage.getItem("favoritesFilms")).length / this.filmsCountAtPage);
     }
   }
 };
